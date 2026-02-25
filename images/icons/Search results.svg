@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1098" height="1106" viewBox="0 0 1098 1106">
+  <defs>
+    <filter id="Rectangle_727" x="0" y="0" width="1098" height="1106" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Search_results" data-name="Search results" transform="translate(-796 -21)">
+    <g transform="matrix(1, 0, 0, 1, 796, 21)" filter="url(#Rectangle_727)">
+      <g id="Rectangle_727-2" data-name="Rectangle 727" transform="translate(9 6)" fill="#fff" stroke="#f5f5f5" stroke-width="1">
+        <rect width="1080" height="1088" rx="10" stroke="none"/>
+        <rect x="0.5" y="0.5" width="1079" height="1087" rx="9.5" fill="none"/>
+      </g>
+    </g>
+    <g id="Component_59_46" data-name="Component 59 – 46" transform="translate(1810 83)">
+      <g id="Rectangle_729" data-name="Rectangle 729" fill="#fff" stroke="#dee2e6" stroke-width="1">
+        <rect width="39" height="39" rx="5" stroke="none"/>
+        <rect x="0.5" y="0.5" width="38" height="38" rx="4.5" fill="none"/>
+      </g>
+      <path id="Path_163" data-name="Path 163" d="M18,6,6,18" transform="translate(8 8)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_164" data-name="Path 164" d="M6,6,18,18" transform="translate(8 8)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <line id="Line_162" data-name="Line 162" x2="1030" transform="translate(830.5 137.5)" fill="none" stroke="#dee2e6" stroke-linecap="round" stroke-width="1"/>
+    <text id="Search_" data-name="Search " transform="translate(869 112)" fill="#000015" font-size="28" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Search </tspan></text>
+    <g id="Rectangle_728" data-name="Rectangle 728" transform="translate(831 180)" fill="#fff" stroke="#dee2e6" stroke-width="1">
+      <rect width="1030" height="100" rx="10" stroke="none"/>
+      <rect x="0.5" y="0.5" width="1029" height="99" rx="9.5" fill="none"/>
+    </g>
+    <text id="_Search_by_name_ID_number_certificate_or_appointment_" data-name="&quot;Search by name, ID number, certificate, or appointment…&quot;" transform="translate(901 220)" fill="#ced4da" font-size="14" font-family="SegoeUI, Segoe UI"><tspan x="0" y="15">&quot;Search by name, ID number, certificate, or appointment…&quot;</tspan></text>
+    <g id="Search_icon" data-name="Search icon" transform="translate(1750 210)">
+      <g id="Rectangle_730" data-name="Rectangle 730" fill="#fff" stroke="#dee2e6" stroke-width="1">
+        <rect width="40" height="40" rx="5" stroke="none"/>
+        <rect x="0.5" y="0.5" width="39" height="39" rx="4.5" fill="none"/>
+      </g>
+      <g id="Group_117" data-name="Group 117" transform="translate(8 8)">
+        <path id="Path_133" data-name="Path 133" d="M21,21l-4.34-4.34" fill="none" stroke="#000015" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <circle id="Ellipse_60" data-name="Ellipse 60" cx="8" cy="8" r="8" transform="translate(3 3)" fill="none" stroke="#000015" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+    <line id="Line_172" data-name="Line 172" y2="50" transform="translate(866.5 205)" fill="none" stroke="#f5f5f5" stroke-linecap="round" stroke-width="2"/>
+    <text id="No_results_found._Please_check_your_spelling_or_try_a_different_search_term." data-name="No results found. Please check your spelling or try a 
+different search term." transform="translate(1345 531)" fill="#a9a9a9" font-size="28" font-family="SegoeUI, Segoe UI"><tspan x="-323.114" y="0">No results found. Please check your spelling or try a </tspan><tspan x="-131.913" y="40">different search term.</tspan></text>
+    <g id="Alert_icon" data-name="Alert icon" transform="translate(1320 407)">
+      <g id="Ellipse_67" data-name="Ellipse 67" fill="#fff" stroke="#dee2e6" stroke-width="1">
+        <circle cx="25" cy="25" r="25" stroke="none"/>
+        <circle cx="25" cy="25" r="24.5" fill="none"/>
+      </g>
+      <g id="Group_125" data-name="Group 125" transform="translate(13.01 13.014)">
+        <path id="Path_173" data-name="Path 173" d="M21.73,18l-8-14a2,2,0,0,0-3.48,0l-8,14A2,2,0,0,0,4,21H20a2,2,0,0,0,1.73-3" fill="none" stroke="#a9a9a9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Path_174" data-name="Path 174" d="M12,9v4" fill="none" stroke="#a9a9a9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="Path_175" data-name="Path 175" d="M12,17h.01" fill="none" stroke="#a9a9a9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

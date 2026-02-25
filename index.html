@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHERmed Website</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+
+         @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.01s ease-out forwards;
+            }
+
+            /* Flat form section styles */
+            .flat-form-section {
+                min-height: 100vh;
+                padding-top: 2rem;
+                padding-bottom: 4rem;
+            }
+            .flat-form-section .section-title {
+                font-size: clamp(1.5rem, 1rem + 2.5vw, 2.5rem);
+                color: #A20F0F;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+            .flat-form-section .section-subtitle {
+                font-size: clamp(0.85rem, 0.75rem + 0.5vw, 1.1rem);
+                color: #333;
+                font-weight: 500;
+                margin-bottom: 0.25rem;
+            }
+            .flat-form-section .section-label {
+                font-size: clamp(0.7rem, 0.65rem + 0.25vw, 0.85rem);
+                color: #555;
+                font-weight: 500;
+                margin-bottom: 0.75rem;
+            }
+            .flat-form-section input,
+            .flat-form-section select,
+            .flat-form-section textarea {
+                width: 100%;
+                padding: 0.6rem 0.75rem;
+                font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.9rem);
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                outline: none;
+                transition: border-color 0.2s;
+                background: white;
+            }
+            .flat-form-section input:focus,
+            .flat-form-section select:focus,
+            .flat-form-section textarea:focus {
+                border-color: #A20F0F;
+                box-shadow: 0 0 0 2px rgba(162, 15, 15, 0.1);
+            }
+            .flat-form-section .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            @media (max-width: 640px) {
+                .flat-form-section .form-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .flat-form-section .btn-primary {
+                display: block;
+                width: 100%;
+                max-width: 34rem;
+                padding: 0.75rem 2rem;
+                background: #A20F0F;
+                color: white;
+                border: none;
+                border-radius: 999px;
+                font-size: clamp(0.8rem, 0.75rem + 0.25vw, 1rem);
+                font-weight: 600;
+                cursor: pointer;
+                transition: background 0.2s, transform 0.1s;
+                text-align: center;
+            }
+            .flat-form-section .btn-primary:hover { background: #8a0d0d; }
+            .flat-form-section .btn-primary:active { transform: scale(0.98); }
+            .flat-form-section .btn-outline {
+                display: block;
+                width: 100%;
+                max-width: 34rem;
+                padding: 0.75rem 2rem;
+                background: white;
+                color: #333;
+                border: 1px solid #ccc;
+                border-radius: 999px;
+                font-size: clamp(0.8rem, 0.75rem + 0.25vw, 1rem);
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                text-align: center;
+            }
+            .flat-form-section .btn-outline:hover { border-color: #A20F0F; color: #A20F0F; }
+            .flat-form-section .info-sidebar {
+                font-size: clamp(0.7rem, 0.65rem + 0.25vw, 0.85rem);
+                color: #444;
+                line-height: 1.6;
+            }
+            .flat-form-section .info-sidebar strong {
+                font-weight: 700;
+            }
+            /* Dashed separator */
+            .dashed-sep {
+                border: none;
+                border-top: 2px dashed #7ec8e3;
+                margin: 1rem 0;
+            }
+            /* Consent checkbox override */
+            .flat-form-section input[type="checkbox"] {
+                width: 1rem;
+                height: 1rem;
+                flex-shrink: 0;
+                margin-top: 0.15rem;
+            }
+
+            /* Certificate search section */
+            .cert-search-section {
+                min-height: 100vh;
+            }
+            .cert-search-section .doc-preview {
+                background: #f9f9f9;
+                border: 1px solid #e5e5e5;
+                border-radius: 12px;
+                min-height: 400px;
+                position: relative;
+            }
+            .cert-search-section .doc-preview-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 1rem;
+                border-bottom: 1px solid #e5e5e5;
+                font-size: 0.8rem;
+                color: #888;
+            }
+            .cert-search-section .doc-preview-header .badge-100 {
+                background: #A20F0F;
+                color: white;
+                padding: 0.15rem 0.6rem;
+                border-radius: 999px;
+                font-size: 0.7rem;
+                font-weight: 600;
+            }
+            .cert-search-section .zoom-controls {
+                display: flex;
+                gap: 0.5rem;
+                justify-content: center;
+                padding: 0.75rem;
+            }
+            .cert-search-section .zoom-btn {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid #ddd;
+                background: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: #666;
+                font-size: 1rem;
+            }
+
+            /* Privacy Policy & Terms */
+            .legal-section {
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 3rem 1.5rem 6rem;
+            }
+            .legal-section .legal-label {
+                text-transform: uppercase;
+                font-size: 0.7rem;
+                letter-spacing: 0.15em;
+                color: #888;
+                text-align: center;
+                margin-bottom: 0.25rem;
+            }
+            .legal-section .legal-title {
+                font-size: clamp(1.8rem, 1.2rem + 3vw, 3rem);
+                color: #A20F0F;
+                font-weight: 700;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            .legal-section h3 {
+                font-size: 1rem;
+                font-weight: 700;
+                color: #222;
+                margin-top: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            .legal-section p, .legal-section li {
+                font-size: 0.85rem;
+                color: #555;
+                line-height: 1.7;
+            }
+            .legal-section ul {
+                list-style: disc;
+                padding-left: 1.25rem;
+                margin-bottom: 0.75rem;
+            }
+            .legal-section .divider {
+                border: none;
+                border-top: 1px solid #e5e5e5;
+                margin: 3rem 0;
+            }
+
+    </style>
+</head>
+
+<body id="top">
+    <header id="header" class="fixed top-0 left-0 w-full z-50 bg-white text-black shadow">
+        <div class="max-w-7xl mx-auto pl-2 px-6">
+            <div class="flex items-center justify-between h-20">
+
+
+                <!-- Logo -->
+                <a href="#" onclick="navigateTo('home'); return false;" class="flex items-center gap-3 shrink-0">
+                    <img src="./images/logo/Logo.png" alt="Shermed Health" class="h-16 lg:h-18 xl:h-20 w-auto" />
+                </a>
+
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center gap-4 xl:gap-8 font-medium text-sm xl:text-base">
+                    <a href="#" onclick="navigateTo('home'); return false;" class="block hover:text-[#A20F0F]">Home</a>
+                    <a href="#" onclick="navigateTo('services'); return false;" class="block hover:text-[#A20F0F]">Services</a>
+                    <a href="#" onclick="navigateTo('aboutus'); return false;" class="block hover:text-[#A20F0F]">About Us</a>
+                    <a href="#" onclick="navigateTo('industries'); return false;" class="block hover:text-[#A20F0F]">Industries</a>
+                    <a href="#" onclick="navigateTo('hse'); return false;" class="block hover:text-[#A20F0F]">HSE Training</a>
+                    <a href="#" onclick="navigateTo('contact'); return false;" class="block hover:text-[#A20F0F]">Contact</a>
+                </nav>
+
+
+                <!-- Desktop CTA -->
+                <div class="hidden lg:grid place-items-center">
+                    <div class="button-container justify-center" id="login-cta">
+                        <a class="black small" href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
+                                <g id="Group_40" data-name="Group 40" transform="translate(-4 -2)">
+                                    <path id="Path_44" data-name="Path 44" d="M19,21V19a4,4,0,0,0-4-4H9a4,4,0,0,0-4,4v2"
+                                        fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" />
+                                    <circle id="Ellipse_10" data-name="Ellipse 10" cx="4" cy="4" r="4"
+                                        transform="translate(8 3)" fill="none" stroke="#000" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" />
+                                </g>
+                            </svg>
+                            <p>Login</p>
+                        </a>
+                        <a class="red" href="" onclick="show('book-appointment'); init(); return false;">
+                            <p>Book Appointment</p>
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- Mobile Menu Button (hamburger / X toggle) -->
+                <button id="mobileMenuBtn"
+                    class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-black hover:bg-gray-100 transition-colors">
+                    <!-- Hamburger icon -->
+                    <svg id="menuIconOpen" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <!-- X close icon -->
+                    <svg id="menuIconClose" class="h-6 w-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+
+            </div>
+        </div>
+
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-gray-200 text-center bg-white text-black">
+            <nav class="px-6 pt-8 pb-4 space-y-5 font-medium text-base">
+                <a href="#" onclick="navigateTo('services'); return false;" class="block hover:text-[#A20F0F]">Services</a>
+                <a href="#" onclick="navigateTo('aboutus'); return false;" class="block hover:text-[#A20F0F]">About</a>
+                <a href="#" onclick="navigateTo('industries'); return false;" class="block hover:text-[#A20F0F]">Industries</a>
+                <a href="#" onclick="navigateTo('hse'); return false;" class="block hover:text-[#A20F0F]">HSE Training</a>
+                <a href="#" onclick="navigateTo('contact'); return false;" class="block hover:text-[#A20F0F]">Contact</a>
+            </nav>
+            <div class="flex flex-col items-center gap-3 px-6 pb-8 pt-4">
+                <a href="" class="inline-flex items-center gap-2 px-8 py-2 border border-gray-300 rounded-full text-sm font-medium text-black hover:border-[#A20F0F] transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="16" viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15,17V15a4,4,0,0,0-4-4H5a4,4,0,0,0-4,4v2"/><circle cx="8" cy="5" r="4"/>
+                    </svg>
+                    Login
+                </a>
+                <a href="" onclick="show('book-appointment'); init(); return false;"
+                   class="inline-flex items-center px-8 py-2 bg-[#A20F0F] text-white rounded-full text-sm font-medium hover:bg-[#8a0d0d] transition">
+                    Book Appointment
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== FLOATING ACTION BUTTONS (WhatsApp + Document) ===== -->
+    <div id="floating-actions" class="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
+        <!-- Document/File Icon -->
+        <a href="" onclick="show('certificate-search'); init(); return false;"
+           class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#A20F0F] flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+           title="Certificate Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+            </svg>
+        </a>
+        <!-- WhatsApp Icon -->
+        <a href="https://wa.me/270842992970" target="_blank" rel="noopener noreferrer"
+           class="w-11 h-11 md:w-12 md:h-12 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+           title="Chat on WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </a>
+    </div>
+
+    <main>
+        <div id="imaginary-height"></div>
+        <div class="page" id="home">
+            <div class="w-full grid place-items-center relative py-10 md:py-32 lg:py-0 md:py-16 md:aspect-1920/1024 bg-black">
+                <div
+                    class="absolute inset-0 bg-no-repeat bg-center bg-cover bg-[url(./images/backgrounds/home.png)] md:bg-[url(./images/backgrounds/home-desktop.png)]">
+                </div>
+                <div class="absolute inset-0 bg-black/65"></div>
+                <div
+                    class="relative z-10 view flex flex-wrap text-white p-[clamp(1rem,-0.3636rem+6.8182vw,4rem)] lg:px-0 lg:py-16 lg:px-4 md:w-full justify-evenly gap-4">
+                    <div class="flex flex-col items-start">
+                        <div class="px-4 py-2 rounded-full border-2 border-white bg-white/30 backdrop-blur-md">
+                            <p>Accredited & Trusted Provider</p>
+                        </div>
+                        <h3 class="font-bold my-4 md:my-8 leading-tight">
+                            Professional <br>
+                            Occupational <br>
+                            Health Made <br>
+                            <span class="text-[#F6E2E2]">Simple</span>
+                        </h3>
+                        <p class="my-4">
+                            Fast, reliable, and tech-enabled medical screenings across South <br
+                                class="hidden md:block">
+                            Africa. Trusted by hundreds of companies for compliance, <br class="hidden md:block">
+                            convenience, and exceptional care.
+                        </p>
+                        <div class="button-container justify-center mt-4 mb-8">
+                            <a class="red" href="" onclick="show('book-appointment'); init(); return false;">
+                                <p>Book Appointment</p>
+                            </a>
+                            <a class="white" href="" onclick="show('free-quotation'); init(); return false;">
+                                <p>Get a Free Quote</p>
+                            </a>
+                        </div>
+                        <div class="my-4 flex items-start w-full justify-between">
+                            <div class="flex flex-col items-start">
+                                <h5 class="font-bold text-2xl">15+</h5>
+                                <p class="font-light">Years Experience</p>
+                            </div>
+                            <div class="flex flex-col items-start mx-4">
+                                <h5 class="font-bold text-2xl">48K+</h5>
+                                <p class="font-light">Patients Served</p>
+                            </div>
+                            <div class="flex flex-col items-start">
+                                <h5 class="font-bold text-2xl">24/7</h5>
+                                <p class="font-light">Available</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex flex-col md:flex-row md:flex-wrap gap-y-4 md:gap-4 md:w-[32rem] lg:self-end">
+                        <div class="card blured-card md:w-[15.5rem]">
+                            <img src="./images/icons/shield-hollow.svg" alt="">
+                            <h6>Mobile & In-Clinic</h6>
+                            <p>
+                                On-site screenings at your workplace nationwide
+                            </p>
+                        </div>
+                        <div class="card blured-card md:w-[15.5rem]">
+                            <img src="./images/icons/time-hollow.svg" alt="">
+                            <h6>Same-Day Service</h6>
+                            <p>
+                                Fast turnaround with digital certificates
+                            </p>
+                        </div>
+                        <div class="card red-card max-w-[36rem] md:w-[32rem] ">
+                            <p>Special Offer</p>
+                            <h5>Beat Any Quote by 5%</h5>
+                            <p>
+                                We guarantee to beat any written quote from registered <br class="lg:block hidden">
+                                OHS providers
+                            </p>
+                            <div class="button-container my-8">
+                                <a href="" class="white" onclick="show('free-quotation'); init(); return false;">Get a Free Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-12 py-24 px-4 justify-center">
+                <div class="info-block">
+                    <img src="./images/icons/time.svg" alt="">
+                    <h3>15+</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="info-block">
+                    <img src="./images/icons/person.svg" alt="">
+                    <h3>48K+</h3>
+                    <p>Patients Served</p>
+                </div>
+                <div class="info-block">
+                    <img src="./images/icons/building.svg" alt="">
+                    <h3>500+</h3>
+                    <p>Corporate Clients</p>
+                </div>
+                <div class="info-block">
+                    <img src="./images/icons/medal.svg" alt="">
+                    <h3>24/7</h3>
+                    <p>Available Service</p>
+                </div>
+            </div>
+        </div>
+        <div class="page r-padding my-16" id="services">
+            <div class="first-block flex flex-col items-center">
+                <h1 class="font-bold text-center">
+                    Comprehensive <span class="text-primary">Health <br class="hidden md:block"> Services</span>
+                </h1>
+                <p class="text-center my-4">
+                    Professional occupational health assessments designed to keep <br class="hidden md:block">
+                    your workforce safe and compliant
+                </p>
+            </div>
+            <div class="grid place-items-center">
+
+                <div class="second-block max-card flex flex-wrap lg:grid lg:grid-cols-3 gap-4 lg:gap-8 my-12 justify-center">
+                    <div class="cardG white">
+                        <img src="./images/icons/hear-red.svg" alt="">
+                        <h6>Audiometry Testing</h6>
+                        <p>
+                            Detect and assess hearing loss from <br class="hidden lg:block">
+                            workplace noise exposure with comprehensive <br class="hidden lg:block">
+                            testing.
+                        </p>
+                    </div>
+                    <div class="cardG white">
+                        <img src="./images/icons/heart-red.svg" alt="">
+                        <h6>Lung Function Testing</h6>
+                        <p>
+                            Non-invasive respiratory health evaluation to <br class="hidden lg:block">
+                            detect early signs of lung issues.
+                        </p>
+                    </div>
+                    <div class="cardG white">
+                        <img src="./images/icons/vision-red.svg" alt="">
+                        <h6>Vision Screening</h6>
+                        <p>
+                            Quick and effective tests to detect visual <br class="hidden lg:block">
+                            impairments and underlying health problems.
+                        </p>
+                    </div>
+                    <div class="cardG white">
+                        <img src="./images/icons/physical-red.svg" alt="">
+                        <h6>Physical Examination</h6>
+                        <p>
+                            Comprehensive medicals to ensure <br class="hidden lg:block">
+                            employees are fit to perform their duties <br class="hidden lg:block">
+                            safely.
+                        </p>
+                    </div>
+                    <div class="cardG white">
+                        <img src="./images/icons/test-red.svg" alt="">
+                        <h6>Urinalysis</h6>
+                        <p>
+                            Identify substance abuse risks to maintain <br class="hidden lg:block">
+                            a safe and productive workplace.
+                        </p>
+                    </div>
+                    <div class="cardG white">
+                        <img src="./images/icons/doc-red.svg" alt="">
+                        <h6>Medical Surveillance</h6>
+                        <p>
+                            Ongoing health monitoring programs in line <br class="hidden lg:block">
+                            with occupational health regulations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page bg-primary pt-[clamp(10rem,9.0909rem+4.5455vw,12rem)] px-[clamp(1rem,-0.3636rem+6.8182vw,4rem)] text-white"
+            id="aboutus">
+            <div class="first-block flex flex-col items-center mb-12 md:mb-24">
+                <h1 class="text-center font-bold mb-2">
+                    Why Choose SHERmed?
+                </h1>
+                <p class="text-center">
+                    Professional occupational health assessments designed to keep <br class="hidden md:block">
+                    your workforce safe and compliant
+                </p>
+            </div>
+            <div class="grid place-self-center">
+
+                <div class="second-block max-card flex flex-wrap lg:grid lg:grid-cols-3 gap-4 lg:gap-8 my-12 justify-center">
+                    <div class="cardG  white blured-card">
+                        <img class="b" src="./images/icons/medal-clear.svg" alt="">
+                        <h6>Beat Any Quote</h6>
+                        <p>
+                            We guarantee to beat any written quote by 5% <br class="hidden lg1:block">
+                            from registered OHS providers
+                        </p>
+                    </div>
+                    <div class="cardG white  blured-card">
+                        <img class="b" src="./images/icons/time-clear.svg" alt="">
+                        <h6>24 Hour Operation</h6>
+                        <p>
+                            Day & night shift services ensuring no <br class="hidden lg:block">
+                            production time loss for your business
+                        </p>
+                    </div>
+                    <div class="cardG white  blured-card">
+                        <img class="b" src="./images/icons/location-clear.svg" alt="">
+                        <h6>National Footprint</h6>
+                        <p>
+                            Professional services across South Africa with <br class="hidden lg:block">
+                            on-site support nationwide
+                        </p>
+                    </div>
+                    <div class="cardG white  blured-card">
+                        <img class="b" src="./images/icons/shock-clear.svg" alt="">
+                        <h6>Fast Certification</h6>
+                        <p>
+                            Medical Certificates of Fitness ready within 24 <br class="hidden lg:block">
+                            hours of assessment
+                        </p>
+                    </div>
+                    <div class="cardG white blured-card">
+                        <img class="b" src="./images/icons/shield-clear.svg" alt="">
+                        <h6>State-of-the-Art Equipment</h6>
+                        <p>
+                            Latest calibrated medical equipment ensuring <br class="hidden lg:block">
+                            accurate and reliable results
+                        </p>
+                    </div>
+                    <div class="cardG white blured-card">
+                        <img class="b" src="./images/icons/tick-clear.svg" alt="">
+                        <h6>Compliance Guaranteed</h6>
+                        <p>
+                            Full compliance with South African OHS Act <br class="hidden lg:block">
+                            and all relevant regulations
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="third-block my-[clamp(10rem,9.0909rem+4.5455vw,12rem)]">
+                <h4>
+                    Our team with a fleet of Occupational Health <br class="hidden md:block">
+                    Mobile Units are ready to bring <br class="hidden md:block">
+                    you exceptional services.
+                </h4>
+            </div>
+            <div class="fourth-block">
+                <div class="s-heading font-black uppercase text-center">Shermed <br class="md:hidden"> occ health</div>
+                <div class="clipping-block lg:flex items-end flex-wrap">
+                    <div class="my-12 lg:my-16">
+                        <h5 class="uppercase font-bold">Patient Portal</h5>
+                        <div class="my-6">
+                            <p class="uppercase font-bold">Access your:</p>
+                            <ul class="list-disc list-inside">
+                                <li>
+                                    medical records
+                                </li>
+                                <li>
+                                    test results
+                                </li>
+                                <li>
+                                    appointment history
+                                </li>
+                            </ul>
+                        </div>
+                        <span>
+                            through our secure patient portal. Stay informed and take <br
+                                class="hidden md:block">control of your
+                            healthcare with convenient online access.
+                        </span>
+                    </div>
+                    <div class="flex flex-col-reverse items-center lg:flex-row lg:items-end lg:justify-evenly flex-1">
+                        <img class="lg:w-[clamp(16rem,6.1538rem+15.3846vw,20rem)]"
+                            src="./images/backgrounds/female-doctor.png" alt="">
+                        <div class="button-container my-12 lg:my-16">
+                            <a class="clear small" href="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20">
+                                    <g id="Group_40" data-name="Group 40" transform="translate(-4 -2)">
+                                        <path id="Path_44" data-name="Path 44"
+                                            d="M19,21V19a4,4,0,0,0-4-4H9a4,4,0,0,0-4,4v2" fill="none" stroke="#fff"
+                                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                                        <circle id="Ellipse_10" data-name="Ellipse 10" cx="4" cy="4" r="4"
+                                            transform="translate(8 3)" fill="none" stroke="#fff" stroke-linecap="round"
+                                            stroke-linejoin="round" stroke-width="2" />
+                                    </g>
+                                </svg>
+                                <p>Login</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page py-[clamp(10rem,9.0909rem+4.5455vw,12rem)] px-[clamp(1rem,-0.3636rem+6.8182vw,4rem)]"
+            id="industries">
+            <div class="first-block flex flex-col items-center">
+                <h1 class="font-bold text-center">
+                    Specialized <span class="text-primary">Industry <br class="hidden md:block"> Solutions</span>
+                </h1>
+                <p class="text-center my-4">
+                    Tailored occupational health services for various industries ensuring full compliance with SA
+                    regulations
+                </p>
+            </div>
+            <div class="second-block flex flex-col gap-4 lg:gap-8 my-12">
+                <div class="flex flex-wrap gap-4 lg:gap-8 justify-center">
+                    <div class="card white">
+                        <img src="./images/icons/food-red.svg" alt="">
+                        <h6>Food Handlers</h6>
+                        <p>
+                            Full medicals and biological testing including E. coli and Salmonella <br
+                                class="hidden lg:block">
+                            screening as required by
+                            law
+                        </p>
+                    </div>
+                    <div class="card white">
+                        <img src="./images/icons/helmet-red.svg" alt="">
+                        <h6>Construction</h6>
+                        <p>
+                            General, Working at Heights, and Operators categories with Annexure 3 <br
+                                class="hidden lg:block">
+                            certificates
+                        </p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-4 lg:gap-8 justify-center">
+                    <div class="card white">
+                        <img src="./images/icons/farming-red.svg" alt="">
+                        <h6>Agriculture</h6>
+                        <p>
+                            Comprehensive health assessments for agricultural workers with focus <br
+                                class="hidden lg:block">
+                            on chemical exposure
+                        </p>
+                    </div>
+                    <div class="card white">
+                        <img src="./images/icons/calender-red.svg" alt="">
+                        <h6>Manufacturing</h6>
+                        <p>
+                            Industry-specific medicals covering noise exposure, dust, and <br class="hidden lg:block">
+                            hazardous materials
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="bg-[#023047] text-white r-padding rounded-3xl flex flex-wrap justify-center md:justify-between mt-20 lg:mt-32">
+                <div class="">
+                    <h5 class="font-bold mb-4 text-[clamp(0.85rem,0.3786rem+2.3571vw,2.5rem)]">Not Sure Which Service
+                        You Need?</h5>
+                    <p>
+                        Our team will help you identify the right medical <br>
+                        assessments for your industry
+                    </p>
+                </div>
+                <div class="button-container justify-center my-6">
+                    <a class="red" href="" onclick="show('free-quotation'); init(); return false;">
+                        <p>Get Free Consultation</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page" id="hse">
+            <div class="w-full grid place-items-center relative py-32 lg:py-0 md:py-16 md:aspect-1920/800 bg-black">
+                <div
+                    class="absolute inset-0 bg-no-repeat bg-center bg-cover bg-[url(./images/backgrounds/hse.png)] md:bg-[url(./images/backgrounds/hse-desktop.png)]">
+                </div>
+                <div class="absolute inset-0 bg-black/65"></div>
+                <div
+                    class="relative z-10 view flex flex-wrap text-white p-[clamp(1rem,-0.3636rem+6.8182vw,4rem)] lg:px-0 lg:py-16 lg:px-4 md:w-full justify-evenly">
+                    <div class="flex flex-col items-start">
+                        <div class="px-4 py-2 rounded-full border-2 border-white bg-white/30 backdrop-blur-md">
+                            <p>HSE Training</p>
+                        </div>
+                        <h3 class="font-bold my-4 md:my-8 leading-tight">
+                            Health, Safety & <br>
+                            Environmental <br>
+                            Training
+                        </h3>
+                        <p class="my-4">
+                            Remember, your facility is only as safe as those operating within <br
+                                class="hidden md:block">
+                            it. It is crucial for employees to know what to do in case of an <br
+                                class="hidden md:block">
+                            unexpected event happening. Prompt management ensures a swift <br class="hidden md:block">
+                            response and thereby minimizes the risk of exposure, injuries or fatalities.
+                        </p>
+                        <div class="button-container justify-center mt-4 mb-8">
+                            <a class="clear" href="" onclick="show('hse-enrollment'); init(); return false;">
+                                <p>Sign Up as an Individual</p>
+                            </a>
+                            <a class="clear" href="" onclick="show('hse-submsit'); init(); return false;">
+                                <p>Sign Up for a Group</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-8 flex flex-wrap gap-4 md:w-[36rem] md:items-end">
+                        <div class="card blured-card">
+                            <h6>Life Safety & Loss <br>Prevention</h6>
+                            <ul>
+                                <li>
+                                    First Aid Training Level 1
+                                </li>
+                                <li>
+                                    First Aid Training Level 2
+                                </li>
+                                <li>
+                                    Basic Fire
+                                </li>
+                                <li>
+                                    Emergency Evacuation
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card blured-card">
+                            <h6>Legislative</h6>
+                            <ul>
+                                <li>
+                                    Legal Liability
+                                </li>
+                                <li>
+                                    OHS Act & Regulations
+                                </li>
+                                <li>
+                                    Hazard Identification & Risk <br>Assessment
+                                </li>
+                                <li>
+                                    Health and Safety
+                                </li>
+                                <li>
+                                    Representative
+                                </li>
+                                <li>
+                                    Incident Investigation
+                                </li>
+                                <li>
+                                    Working at Heights
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col items-center py-24 lg:py-36 r-paddingx">
+                <div>
+                    <h3 class="text-center font-semibold">Ready to Ensure Your <span class="text-primary">Workplace <br
+                                class="hidden md:block">
+                            Compliance?</span></h3>
+                    <p class="text-center">
+                        Book your occupational health appointment today for fast, professional <br
+                            class="hidden md:block"> service that ensures workplace safety and full legal compliance.
+                    </p>
+                    <div class="button-container justify-center mt-4 mb-8 md:mb-12 md:mt-8 lg:mb-20">
+                        <a class="red" href="" onclick="show('book-appointment'); init(); return false;">
+                            <img class="" src="./images/icons/calender-wire.svg" alt="">
+                            <p>Book Appointment Now</p>
+                        </a>
+                        <a class="black" href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+                                <path id="Path_180" data-name="Path 180"
+                                    d="M13.832,16.568a1,1,0,0,0,1.213-.3L15.4,15.8A2,2,0,0,1,17,15h3a2,2,0,0,1,2,2v3a2,2,0,0,1-2,2A18,18,0,0,1,2,4,2,2,0,0,1,4,2H7A2,2,0,0,1,9,4V7a2,2,0,0,1-.8,1.6l-.468.351a1,1,0,0,0-.292,1.233,14,14,0,0,0,6.392,6.384"
+                                    transform="translate(-1 -1)" fill="none" stroke="#000015" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" />
+                            </svg>
+                            <p>Call (084)-299-2970</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="w-full line-ctn relative flex items-center justify-center">
+                    <div class="line w-[95%] absolute bg-[#DEE2E6] h-px"></div>
+                </div>
+                <div class="my-8">
+                    <ul
+                        class="text-[#A9A9A9] flex flex-wrap justify-center items-center gap-4 md:gap-8 lg:gap-12 xl:gap-24 text-[clamp(0.75rem,0.5227rem+1.1364vw,1.25rem)]">
+                        <li>✓ Same-day service available</li>
+                        <li>✓ Mobile units nationwide</li>
+                        <li>✓ Digital certificates</li>
+                        <li>✓ 24/7 operations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="page r-paddingx pt-16 pb-24 lg:pb-40 mb-18" id="contact">
+            <div class="flex flex-col items-center pb-24 lg:pb-36 r-paddingx">
+                <h3 class="text-center font-semibold">Get in <span class="text-primary">Touch</span> </h3>
+                <p class="text-center">
+                    We're here to help you create a safer, healthier workplace. Whether you need occupational <br
+                        class="md:block hidden">
+                    medicals, on-site assessments, or accredited HHS training, our team is ready to assist.
+                </p>
+            </div>
+            <div class="flex flex-wrap justify-evenly items-center">
+                <div class="left">
+                    <h4 class="text-primary font-semibold">
+                        A safer workplace starts <br>
+                        with a simple conversation <br>
+                        — contact us today.
+                    </h4>
+                    <div class="flex flex-wrap gap-4 my-12 md:w-[36rem]">
+                        <div class="contact-block">
+                            <h4>Call Us</h4>
+                            <ul>
+                                <li>(012)-361-7817</li>
+                                <li>(084)-299-2970</li>
+                            </ul>
+                        </div>
+                        <div class="contact-block">
+                            <h4>Email</h4>
+                            <ul>
+                                <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2b42454d446b58434e59464e4f05484405514a">[email&#160;protected]</a></li>
+                                <li><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fcb19d8e9592989dbc8f94998e919998d29f93d2869d">[email&#160;protected]</a></li>
+                            </ul>
+                        </div>
+                        <div class="contact-block">
+                            <h4>Visit Us</h4>
+                            <ul>
+                                <li>490B Sappers Contour,</li>
+                                <li>Lynnwood, Pretoria, 0081</li>
+                            </ul>
+                        </div>
+                        <div class="contact-block">
+                            <h4>Hours</h4>
+                            <ul>
+                                <li>Mon – Thu :8AM – 3PM</li>
+                                <li>Fri :8AM - 1PM</li>
+                                <li>Weekends :Closed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <form class="contact-form md:w-[32rem]" action="">
+                        <h4 class="mb-8 font-bold">Send Us A Message</h4>
+                        <input type="text" placeholder="Full Name">
+                        <input type="tel" placeholder="Phone">
+                        <input type="email" placeholder="Email">
+                        <textarea rows="6" name="Message" placeholder="Message"></textarea>
+                        <button type="submit">Send message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- ===== BOOK APPOINTMENT (NEW FLAT DESIGN) ===== -->
+        <section id="book-appointment" class="hidden bg-white flat-form-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
+
+                <!-- Title -->
+                <h2 class="section-title">Book Your Appointment Today!</h2>
+
+                <!-- Two-column layout -->
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 mt-6">
+
+                    <!-- LEFT: Form -->
+                    <div class="flex-1 max-w-[34rem]">
+                        <h3 class="section-subtitle mb-1">Information</h3>
+                        <p class="section-label">Contact Information</p>
+
+                        <form
+                            action="{{ route('yoco.initialize') }}"
+                            method="POST"
+                            role="form"
+                            class="flex flex-col gap-4"
+                            id="appointment-form"
+                        >
+                            @csrf
+
+                            <!-- First / Last Name -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="text" name="first_name" placeholder="First name"
+                                        value="{{ old('first_name', $userPay->first_name ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="text" name="last_name" placeholder="Last name"
+                                        value="{{ old('last_name', $userPay->last_name ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Phone / Email -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="tel" name="phone" placeholder="Phone number"
+                                        value="{{ old('phone', $userPay->phone ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Email"
+                                        value="{{ old('email', $userPay->email ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Appointment Information label -->
+                            <p class="section-label mt-2 mb-0">Appointment Information</p>
+
+                            <!-- Service / Quantity -->
+                            <div class="form-grid">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">What services do you require?</label>
+                                    <select name="service" required>
+                                        <option value="" disabled {{ old('service') ? '' : 'selected' }}>What services do you require?</option>
+                                        <option value="Medical Certificate of Fitness" {{ old('service') == 'Medical Certificate of Fitness' ? 'selected' : '' }}>Medical Certificate of Fitness</option>
+                                        <option value="Multi-drug Testing" {{ old('service') == 'Multi-drug Testing' ? 'selected' : '' }}>Multi-drug Testing</option>
+                                        <option value="X Ray" {{ old('service') == 'X Ray' ? 'selected' : '' }}>X Ray</option>
+                                        <option value="Vaccines" {{ old('service') == 'Vaccines' ? 'selected' : '' }}>Vaccines</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Quantity (Number of employees for testing)</label>
+                                    <input type="number" name="quantity" min="1" max="100" placeholder="0"
+                                        value="{{ old('quantity', $userPay->quantity ?? '1') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Time / Date -->
+                            <div class="form-grid">
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Appointment Time</label>
+                                    <select name="appointment_time" id="appointmentTimeSelect" required>
+                                        <option value="" disabled selected>Select time</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs text-gray-500 mb-1">Appointment Date</label>
+                                    <input type="date" name="appointment_date" id="appointmentDateInput"
+                                        value="{{ old('appointment_date', $userPay->appointment_date ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="flex flex-col gap-3 mt-4">
+                                <button type="submit" class="btn-primary" id="btn-pay">Proceed to Payment</button>
+                                <button type="button" class="btn-outline" onclick="closeModal()">Cancel Booking</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT: Info sidebar -->
+                    <div class="info-sidebar lg:max-w-[280px] lg:pt-12">
+                        <p>
+                            Book your appointment in minutes. Quick, easy, and secure — your health matters. A small <strong>booking fee of R150.00 per person</strong> <em>(Booking fee is non-refundable but will be added as a credit on your final invoice)</em> is required to confirm your appointment. This helps us reserve your slot and prepare for your visit.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAYMENT REDIRECT OVERLAY -->
+        <section id="payment-redirect" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-[9999] 
+            flex items-center justify-center px-4">
+            <div id="payment-loading" class="bg-white p-6 md:p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+                <div class="mb-6">
+                    <svg class="animate-spin h-12 w-12 md:h-16 md:w-16 mx-auto text-[#A20F0F]"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-xl md:text-2xl font-bold mb-2 text-gray-800">Processing Payment</h2>
+                <p class="text-sm md:text-base text-gray-600 mb-4">
+                    Please wait while we redirect you to the payment gateway...
+                </p>
+                <p id="payment-status-message" class="text-xs md:text-sm text-gray-500">Initializing...</p>
+            </div>
+        </section>
+
+        <!-- ===== FREE QUOTATION (NEW FLAT DESIGN) ===== -->
+        <section id="free-quotation" class="hidden bg-white flat-form-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
+
+                <h2 class="section-title">Get A Free Quotation</h2>
+
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 mt-6">
+
+                    <!-- LEFT: Form -->
+                    <div class="flex-1 max-w-[34rem]">
+                        <h3 class="section-subtitle mb-1">Information</h3>
+                        <p class="section-label">Company Information</p>
+
+                        <form
+                            action="{{ route('quotation.initialize') }}"
+                            method="POST"
+                            role="form"
+                            class="flex flex-col gap-4"
+                        >
+                            @csrf
+
+                            <!-- Company / Contact -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="text" name="company_name" placeholder="Company name"
+                                        value="{{ old('company_name', $userQuote->company_name ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="text" name="contact_person" placeholder="Contact person name"
+                                        value="{{ old('contact_person', $userQuote->contact_person ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Phone / Email -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="tel" name="phone" placeholder="Phone number"
+                                        value="{{ old('phone', $userQuote->phone ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Email"
+                                        value="{{ old('email', $userQuote->email ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Address / Num Employees -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="text" name="address" placeholder="Physical address"
+                                        value="{{ old('address', $userQuote->address ?? '') }}" maxlength="100">
+                                </div>
+                                <div>
+                                    <input type="text" name="num_employees" placeholder="Number of employees?"
+                                        value="{{ old('num_employees', $userQuote->num_employees ?? '') }}" maxlength="7">
+                                </div>
+                            </div>
+
+                            <!-- Service / Date -->
+                            <div class="form-grid">
+                                <div>
+                                    <select name="service" required>
+                                        <option value="" disabled {{ old('service', $userQuote->service ?? '') ? '' : 'selected' }}>What services do you require?</option>
+                                        <option value="Medical Certificate of Fitness" {{ old('service', $userQuote->service ?? '') == 'Medical Certificate of Fitness' ? 'selected' : '' }}>Medical Certificate of Fitness</option>
+                                        <option value="Multi-drug Testing" {{ old('service', $userQuote->service ?? '') == 'Multi-drug Testing' ? 'selected' : '' }}>Multi-drug Testing</option>
+                                        <option value="X Ray" {{ old('service', $userQuote->service ?? '') == 'X Ray' ? 'selected' : '' }}>X Ray</option>
+                                        <option value="Vaccines" {{ old('service', $userQuote->service ?? '') == 'Vaccines' ? 'selected' : '' }}>Vaccines</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <input type="date" name="appointment_date" placeholder="Preferred date for service"
+                                        value="{{ old('appointment_date', $userQuote->appointment_date ?? '') }}">
+                                </div>
+                            </div>
+
+                            <!-- Additional Info -->
+                            <div>
+                                <textarea name="cust_info" placeholder="Additional Information / Special Requirements (optional)"
+                                    rows="4" maxlength="300" style="resize:none;">{{ old('cust_info', $userQuote->cust_info ?? '') }}</textarea>
+                            </div>
+
+                            <!-- Button -->
+                            <div class="mt-2">
+                                <button type="submit" class="btn-primary">Request Quote</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT: Info sidebar -->
+                    <div class="info-sidebar lg:max-w-[280px] lg:pt-12">
+                        <p>
+                            Looking to book medicals or health & safety services for your employees? Fill in the form below and our team will get back to you with a tailored quote that suits your company's needs.
+                        </p>
+                        <p class="mt-4 font-semibold">
+                            Fast response | No obligation | Customized to your industry
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ===== HSE INDIVIDUAL ENROLLMENT (NEW FLAT DESIGN) ===== -->
+        <section id="hse-enrollment" class="hidden bg-white flat-form-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
+
+                <h2 class="section-title">HSE Training Individual Enrollment</h2>
+
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 mt-6">
+
+                    <!-- LEFT: Form -->
+                    <div class="flex-1 max-w-[34rem]">
+                        <h3 class="section-subtitle mb-1">Sign-Up Form</h3>
+                        <p class="section-label">Personal Information</p>
+
+                        <form
+                            action="{{ route('hse.individual') }}"
+                            method="POST"
+                            role="form"
+                            class="flex flex-col gap-4"
+                        >
+                            @csrf
+
+                            <!-- Full Name / ID -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="text" name="contact_person" placeholder="Full name"
+                                        value="{{ old('contact_person', $clientEnroll->contact_person ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="text" name="id_passport" placeholder="ID/Passport number"
+                                        value="{{ old('id_passport', $clientEnroll->id_passport ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Phone / Email -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="tel" name="phone" placeholder="Phone number"
+                                        value="{{ old('phone', $clientEnroll->phone ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Email"
+                                        value="{{ old('email', $clientEnroll->email ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Course Select -->
+                            <div>
+                                <select name="course" required>
+                                    <option value="" disabled {{ old('course', $clientEnroll->course ?? '') ? '' : 'selected' }}>Select Course</option>
+                                    <option value="Multi-drug Testing" {{ old('course', $clientEnroll->course ?? '') == 'Multi-drug Testing' ? 'selected' : '' }}>Multi-drug Testing</option>
+                                    <option value="Life Safety & Loss Prevention" {{ old('course', $clientEnroll->course ?? '') == 'Life Safety & Loss Prevention' ? 'selected' : '' }}>Life Safety & Loss Prevention</option>
+                                    <option value="Legislative" {{ old('course', $clientEnroll->course ?? '') == 'Legislative' ? 'selected' : '' }}>Legislative</option>
+                                </select>
+                            </div>
+
+                            <!-- Additional Info -->
+                            <div>
+                                <textarea name="cust_info" placeholder="Additional Information / Special Requirements (optional)"
+                                    rows="4" maxlength="300" style="resize:none;">{{ old('cust_info', $clientEnroll->cust_info ?? '') }}</textarea>
+                            </div>
+
+                            <!-- Consent -->
+                            <label class="flex items-start gap-2 cursor-pointer text-xs text-[#A20F0F]">
+                                <input type="checkbox" name="consent" required>
+                                <span>Consent Checkbox: I agree to the terms & privacy policy</span>
+                            </label>
+
+                            <!-- Button -->
+                            <div class="mt-2">
+                                <button type="submit" class="btn-primary">Enroll Now</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT: Info sidebar -->
+                    <div class="info-sidebar lg:max-w-[280px] lg:pt-12">
+                        <p class="font-semibold">HSE Training Individual Sign-Up Form</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== HSE GROUP / COMPANY ENROLLMENT (NEW FLAT DESIGN) ===== -->
+        <section id="hse-submsit" class="hidden bg-white flat-form-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
+
+                <h2 class="section-title">HSE Training Group / Company Enrollment</h2>
+
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-16 mt-6">
+
+                    <!-- LEFT: Form -->
+                    <div class="flex-1 max-w-[34rem]">
+                        <h3 class="section-subtitle mb-1">Sign-Up Form</h3>
+                        <p class="section-label">Group Information</p>
+
+                        <form
+                            action="{{ route('hse.company') }}"
+                            method="POST"
+                            role="form"
+                            class="flex flex-col gap-4"
+                        >
+                            @csrf
+
+                            <!-- Company / Contact -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="text" name="company_name" placeholder="Company name"
+                                        value="{{ old('company_name', $companyEnroll->company_name ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="text" name="contact_person" placeholder="Contact person"
+                                        value="{{ old('contact_person', $companyEnroll->contact_person ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Phone / Email -->
+                            <div class="form-grid">
+                                <div>
+                                    <input type="tel" name="phone" placeholder="Phone number"
+                                        value="{{ old('phone', $companyEnroll->phone ?? '') }}" required>
+                                </div>
+                                <div>
+                                    <input type="email" name="email" placeholder="Email"
+                                        value="{{ old('email', $companyEnroll->email ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Course / Trainees -->
+                            <div class="form-grid">
+                                <div>
+                                    <select name="course" required>
+                                        <option value="" disabled {{ old('course', $companyEnroll->course ?? '') ? '' : 'selected' }}>Select Course</option>
+                                        <option value="Life Safety & Loss Prevention" {{ old('course', $companyEnroll->course ?? '') == 'Life Safety & Loss Prevention' ? 'selected' : '' }}>Life Safety & Loss Prevention</option>
+                                        <option value="Legislative" {{ old('course', $companyEnroll->course ?? '') == 'Legislative' ? 'selected' : '' }}>Legislative</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <input type="tel" name="num_trainees" placeholder="Number of trainees"
+                                        value="{{ old('num_trainees', $companyEnroll->num_trainees ?? '') }}" required>
+                                </div>
+                            </div>
+
+                            <!-- Additional Info -->
+                            <div>
+                                <textarea name="cust_info" placeholder="Additional Information / Special Requirements (optional)"
+                                    rows="4" maxlength="300" style="resize:none;">{{ old('cust_info', $companyEnroll->cust_info ?? '') }}</textarea>
+                            </div>
+
+                            <!-- Consent -->
+                            <label class="flex items-start gap-2 cursor-pointer text-xs text-[#A20F0F]">
+                                <input type="checkbox" name="consent" required>
+                                <span>Consent Checkbox: I confirm that my company agrees to the terms & privacy policy</span>
+                            </label>
+
+                            <!-- Button -->
+                            <div class="mt-2">
+                                <button type="submit" class="btn-primary">Submit Group Request</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- RIGHT: Info sidebar -->
+                    <div class="info-sidebar lg:max-w-[280px] lg:pt-12">
+                        <p class="font-semibold">HSE Training Group / Company Sign-Up Form</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CERTIFICATE SEARCH (NEW DESIGN) ===== -->
+        <section id="certificate-search" class="hidden bg-white cert-search-section">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+
+                <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+
+                    <!-- LEFT: Search -->
+                    <div class="flex-1 lg:max-w-[420px]">
+                        <h2 class="text-xl md:text-2xl font-bold text-black mb-1">Certificate Search Bar</h2>
+                        <p class="text-sm text-gray-600 mb-6">Manually search a Medical Certificate</p>
+
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search by Certificate Number</label>
+                        <div class="relative mb-4">
+                            <input type="text" id="certSearchInput" placeholder="Insert certificate number"
+                                class="w-full px-4 py-2.5 pr-10 border border-[#A20F0F] rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#A20F0F]/30">
+                            <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <button class="px-6 py-2 bg-[#A20F0F] text-white text-sm font-medium rounded-full hover:bg-[#8a0d0d] transition mb-10">
+                            Search Certificate
+                        </button>
+
+                        <!-- Need Digital Copy -->
+                        <div class="mt-8">
+                            <p class="text-[#A20F0F] font-semibold text-sm flex items-center gap-2 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A20F0F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                    <polyline points="14 2 14 8 20 8"/>
+                                    <line x1="16" y1="13" x2="8" y2="13"/>
+                                    <line x1="16" y1="17" x2="8" y2="17"/>
+                                </svg>
+                                Need A Digital Copy?
+                            </p>
+                            <p class="text-sm text-gray-600 mb-4">
+                                If you would like a digital copy of your certificate, please contact SHERmed Support at: (We'll be happy to assist you.)
+                            </p>
+                            <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-sm">
+                                <p class="font-medium text-gray-700"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a7cec9c1c8e7d4cfc2d5cac2c389c4c889ddc6">[email&#160;protected]</a></p>
+                                <p class="font-medium text-gray-700">(012)-361-7817</p>
+                                <p class="font-medium text-gray-700"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e5a884978c8b8184a5968d8097888081cb868acb9f84">[email&#160;protected]</a></p>
+                                <p class="font-medium text-gray-700">(084)-299-2970</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Document Preview -->
+                    <div class="flex-1">
+                        <div class="doc-preview flex flex-col">
+                            <div class="doc-preview-header">
+                                <span>Document Preview</span>
+                                <span class="badge-100">100%</span>
+                            </div>
+                            <div class="flex-1 min-h-[350px] md:min-h-[450px] bg-white"></div>
+                            <div class="zoom-controls">
+                                <button class="zoom-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><line x1="8" y1="11" x2="14" y2="11"/>
+                                    </svg>
+                                </button>
+                                <button class="zoom-btn">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== PRIVACY POLICY & TERMS OF USE ===== -->
+        <section id="privacy-policy" class="hidden bg-white">
+            <div class="legal-section">
+
+                <p class="legal-label">Understanding Our</p>
+                <h2 class="legal-title">Privacy Policy</h2>
+
+                <h3>1. Who We Are</h3>
+                <p>SHERmed is an Occupational Health service provider committed to protecting the privacy of your personal and medical information in accordance with South African privacy laws.</p>
+
+                <h3>2. Information We Collect</h3>
+                <ul>
+                    <li>Name, email, phone number, and company info</li>
+                    <li>Appointment and medical booking details</li>
+                    <li>ID/Passport and/or patient records</li>
+                    <li>Website usage data (cookies, analytics)</li>
+                </ul>
+
+                <h3>3. How We Use Your Information</h3>
+                <ul>
+                    <li>To provide health screening and compliance services</li>
+                    <li>To schedule and manage bookings</li>
+                    <li>For communication, invoicing, and support</li>
+                    <li>To improve platform performance and security</li>
+                </ul>
+
+                <h3>4. Data Storage & Security</h3>
+                <p>We store your data securely on encrypted servers and only share it with authorized personnel. Access is strictly controlled.</p>
+
+                <h3>5. Third-Party Access</h3>
+                <p>We do not sell or rent your data. We may use third-party services (e.g., payment processors) who also comply with privacy standards.</p>
+
+                <h3>6. Your Rights</h3>
+                <p>You have the right to access, correct, or delete your personal information by contacting us.</p>
+
+                <h3>7. Cookies & Tracking</h3>
+                <p>We use cookies to improve your browsing experience and analyze site traffic.</p>
+
+                <h3>8. Contact</h3>
+                <p>For questions or data requests, email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5b32353d341b28333e29363e3f75383475213a">[email&#160;protected]</a> or <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6b060a1902050f0a2b18030e19060e0f45080445110a">[email&#160;protected]</a></p>
+
+                <hr class="divider">
+
+                <p class="legal-label">Understanding Our</p>
+                <h2 class="legal-title">Terms of Use</h2>
+
+                <h3>1. Acceptance of Terms</h3>
+                <p>By using SHERmed's website or client portal, you agree to comply with these terms.</p>
+
+                <h3>2. Services Provided</h3>
+                <p>SHERmed provides Occupational Health services and digital tools for managing medical surveillance, reports, and employee health compliance.</p>
+
+                <h3>3. User Responsibilities</h3>
+                <p>You agree to:</p>
+                <ul>
+                    <li>Provide accurate information</li>
+                    <li>Use the portal ethically and lawfully</li>
+                    <li>Not share your login credentials</li>
+                </ul>
+
+                <h3>4. Intellectual Property</h3>
+                <p>All website content, software, and documents are the property of SHERmed and may not be copied or reused without permission.</p>
+
+                <h3>5. Limitation of Liability</h3>
+                <p>We are not liable for any indirect losses arising from delay, errors, or data access interruptions on our platform.</p>
+
+                <h3>6. Termination of Access</h3>
+                <p>We may suspend or terminate access if there is a misuse or breach of these terms.</p>
+
+                <h3>7. Modifications</h3>
+                <p>We may update these terms from time to time. Continued use means you accept the new terms.</p>
+
+                <h3>8. Governing Law</h3>
+                <p>These terms are governed by South African law.</p>
+            </div>
+        </section>
+
+        <!-- BLUR OVERLAY -->
+        
+        <section id="successPayment" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] 
+            flex items-center justify-center px-4 py-10">
+            <div class="relative w-full max-w-[750px] bg-white rounded-2xl shadow-xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+                <button onclick="closeSuccessModal()"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 
+                        w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md
+                        hover:bg-gray-100 transition text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+                    <!-- Left: Icon + text -->
+                    <div class="flex flex-col items-center md:items-start text-center md:text-left md:flex-1">
+                        <div class="relative flex items-center justify-center mb-4">
+                            <div class="h-16 w-16 rounded-full bg-[#38B000] flex items-center justify-center z-10">
+                                <svg class="h-9 w-9 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </div>
+                            <div class="absolute h-20 w-20 rounded-full bg-[#B2FF9E] opacity-40"></div>
+                        </div>
+                        <h2 class="text-[#38B000] font-semibold text-xl mb-2">Payment Successful</h2>
+                        <p class="text-gray-600 text-xs leading-relaxed">
+                            "Thank you! Your appointment has been confirmed. A confirmation has been sent to your email/WhatsApp. Please arrive 15 minutes early with any required documents."
+                        </p>
+                    </div>
+                    <!-- Right: Booking Summary -->
+                    @if(isset($userPay) && $userPay->id)
+                    <div class="bg-gray-50 rounded-xl p-5 md:flex-1">
+                        <h4 class="text-gray-800 font-semibold text-base pb-3 border-b border-gray-200">Booking Summary</h4>
+                        <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 mt-3 text-xs">
+                            <p class="font-semibold text-gray-600">Booking No.</p>
+                            <p class="text-gray-700">{{ $userPay->display_id ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">First Name.</p>
+                            <p class="text-gray-700">{{ $userPay->first_name ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Last Name.</p>
+                            <p class="text-gray-700">{{ $userPay->last_name ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Service.</p>
+                            <p class="text-gray-700">{{ $userPay->service ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Appointment Date.</p>
+                            <p class="text-gray-700">{{ $userPay->appointment_date ? $userPay->appointment_date->format('F d, Y') : 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Appointment Time.</p>
+                            <p class="text-gray-700">{{ $userPay->appointment_time ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Email.</p>
+                            <p class="text-gray-700 truncate">{{ $userPay->email ?? 'N/A' }}</p>
+                            <p class="font-semibold text-gray-600">Phone.</p>
+                            <p class="text-gray-700">{{ $userPay->phone ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                    @endif
+                </div>
+            </div>
+        </section>
+
+        <section id="unsuccessPayment" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] 
+                    flex items-center justify-center px-4 overflow-y-auto py-10">
+            <div class="relative w-full max-w-[420px] bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-5">
+                <button onclick="closeModal()"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <!-- Sad face icon -->
+                <div class="relative flex items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-[#6c757d] flex items-center justify-center z-10">
+                        <svg class="h-9 w-9 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 15s1.5-2 4-2 4 2 4 2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <div class="absolute h-20 w-20 rounded-full bg-[#DEE2E6] opacity-50"></div>
+                </div>
+                <h2 class="text-[#343A40] font-semibold text-xl">Payment Unsuccessful</h2>
+                <p class="text-gray-500 text-sm">
+                    There was an issue with your payment. Please try again or use a different details.
+                </p>
+                <button onclick="closeModal()" class="mt-2 px-12 py-2.5 bg-[#38B000] text-white rounded-lg font-medium hover:bg-[#2d8f00] transition">
+                    Try Again
+                </button>
+            </div>
+        </section>
+
+        <section id="okEnrollment" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] 
+                    flex items-center justify-center px-4 overflow-y-auto py-10">
+            <div class="relative w-full max-w-[420px] bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center gap-5">
+                <button onclick="closeModal()"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <!-- Sparkle/star icon -->
+                <div class="relative flex items-center justify-center">
+                    <div class="h-16 w-16 rounded-full bg-[#38B000] flex items-center justify-center z-10">
+                        <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2Z"/>
+                        </svg>
+                    </div>
+                    <div class="absolute h-20 w-20 rounded-full bg-[#B2FF9E] opacity-40"></div>
+                </div>
+                <h2 class="text-[#38B000] font-semibold text-xl">Thank You!</h2>
+                <p class="text-gray-500 text-sm">
+                    Your training enrollment has been received.<br>
+                    We will contact you shortly to confirm <strong>course availability</strong> and <strong>next steps</strong>.
+                </p>
+            </div>
+        </section>
+        
+        <section id="orderSuscess" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] 
+            flex items-center justify-center px-4 py-10">
+            <div class="relative w-full max-w-lg bg-white rounded-2xl shadow-xl p-6 md:p-8 max-h-[90vh] overflow-y-auto">
+                <button onclick="closeSuccessModal()"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-700 w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition text-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <div class="flex flex-col items-center text-center gap-4 mb-6">
+                    <!-- Bell icon -->
+                    <div class="relative flex items-center justify-center">
+                        <div class="h-16 w-16 rounded-full bg-[#38B000] flex items-center justify-center z-10">
+                            <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                        </div>
+                        <div class="absolute h-20 w-20 rounded-full bg-[#B2FF9E] opacity-40"></div>
+                    </div>
+                    <h2 class="text-[#38B000] font-semibold text-xl">Quote Request Submitted Successfully!</h2>
+                    <p class="text-gray-600 text-sm max-w-md">
+                        Thank you for your enquiry. A member of our SHERMed team will review your request and get in
+                        touch with a personalized quote within 24–48 hours.
+                    </p>
+                    <p class="text-gray-600 text-sm max-w-md">
+                        We look forward to helping you keep your workforce safe and compliant.
+                    </p>
+                </div>
+                @if(isset($userQuote) && $userQuote->id)
+                <div class="bg-gray-50 rounded-xl p-5">
+                    <h4 class="text-gray-800 font-semibold text-base pb-3 border-b border-gray-200">Quote Summary</h4>
+                    <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 mt-3 text-xs">
+                        <p class="font-semibold text-gray-600">Quote No.</p>
+                        <p class="text-gray-700">{{ $userQuote->display_id ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Company Name.</p>
+                        <p class="text-gray-700">{{ $userQuote->company_name ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Contact Person Name.</p>
+                        <p class="text-gray-700">{{ $userQuote->contact_person ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Service.</p>
+                        <p class="text-gray-700">{{ $userQuote->service ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Date.</p>
+                        <p class="text-gray-700">{{ $userQuote->appointment_date ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Physical Address.</p>
+                        <p class="text-gray-700">{{ $userQuote->address ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Email.</p>
+                        <p class="text-gray-700 truncate">{{ $userQuote->email ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Phone.</p>
+                        <p class="text-gray-700">{{ $userQuote->phone ?? 'N/A' }}</p>
+                        <p class="font-semibold text-gray-600">Number of Employees.</p>
+                        <p class="text-gray-700">{{ $userQuote->num_employees ?? 'N/A' }}</p>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </section>
+
+    </main>
+    <footer id="footer" class="r-paddingx py-28 bg-[#023047] text-white">
+        <div class="first-block flex flex-wrap justify-center md:justify-between py-8 md:px-16">
+            <h3>Let's connect with us</h3>
+            <div class="button-container justify-center mt-4 mb-8">
+                <a class="red" href="" onclick="show('book-appointment'); init(); return false;">
+                    <p>Book Appointment</p>
+                </a>
+                <a class="white" href="" onclick="show('free-quotation'); init(); return false;">
+                    <p>Get a Free Quote</p>
+                </a>
+            </div>
+        </div>
+        <div class="w-full line-ctn relative flex items-center justify-center">
+            <div class="line w-[96%] absolute bg-[#DEE2E6] h-px"></div>
+        </div>
+        <div class="second-block flex flex-col md:flex-row flex-wrap py-20 md:px-12 gap-6">
+            <a href="./" class="flex-1 shrink-0">
+                <img class="max-w-none w-[clamp(16rem,15.0909rem+4.5455vw,18rem)]" src="./images/logo/logo-white.svg"
+                    alt="">
+            </a>
+            <div class="footer_nav">
+                <span>CUSTOMER SERVICE</span>
+                <ul>
+                    <li><a href="" onclick="show('privacy-policy'); init(); return false;">Privacy Policy</a></li>
+                    <li><a href="" onclick="show('privacy-policy'); init(); return false;">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="footer_nav">
+                <span>LINKS</span>
+                <ul>
+                    <li>Services</li>
+                    <li>About</li>
+                    <li>Industries</li>
+                    <li>Industries</li>
+                    <li>HSE Training</li>
+                    <li>Contact Us</li>
+                </ul>
+            </div>
+            <div class="footer_nav">
+                <span>SERVICES</span>
+                <ul>
+                    <li>Physical Examination</li>
+                    <li>Audio Metric Testing</li>
+                    <li>Keystone Vision Screening</li>
+                    <li>Lung Function Testing</li>
+                    <li>Urinalysis</li>
+                    <li>Multi- drug Testing</li>
+                </ul>
+            </div>
+        </div>
+        <div class="third-block bg-[#bfc0c045] p-4 flex justify-center items-center rounded-2xl">
+            <p class="text-center">Designed by <b>Desygn Spxce</b> © 2026/2027 | Copyright SHERmed | All rights
+                reserved.</p>
+        </div>
+    </footer>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script> 
+
+        const hideHome = 'home';
+        
+        function hideHomeSection() {
+                const homeSection = document.getElementById(hideHome);
+                if (homeSection) {
+                    homeSection.classList.add('hidden');
+                }
+        }
+
+        function init() {
+            hideHomeSection();
+        }
+
+        // Main page sections that make up the full homepage
+        const mainPageSections = ['home', 'services', 'aboutus', 'industries', 'hse', 'contact'];
+
+        // All form/modal/overlay sections that should be hidden when navigating home
+        const formAndModalSections = [
+            'book-appointment', 'free-quotation', 'hse-enrollment', 'hse-submsit',
+            'certificate-search', 'privacy-policy',
+            'successPayment', 'unsuccessPayment', 'okEnrollment', 'orderSuscess', 'payment-redirect'
+        ];
+
+        // Navigate to a section on the main page from anywhere
+        function navigateTo(targetId) {
+            // 1. Hide all form/modal sections
+            formAndModalSections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            // 2. Show all main page sections (restore the full homepage)
+            mainPageSections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('hidden');
+            });
+
+            // 3. Show footer
+            const footer = document.getElementById('footer');
+            if (footer) footer.classList.remove('hidden');
+
+            // 4. Close mobile menu if open
+            const mobileMenuEl = document.getElementById('mobileMenu');
+            const menuOpenIcon = document.getElementById('menuIconOpen');
+            const menuCloseIcon = document.getElementById('menuIconClose');
+            if (mobileMenuEl && !mobileMenuEl.classList.contains('hidden')) {
+                mobileMenuEl.classList.add('hidden');
+                if (menuOpenIcon) menuOpenIcon.classList.remove('hidden');
+                if (menuCloseIcon) menuCloseIcon.classList.add('hidden');
+            }
+
+            // 5. Scroll to the target section
+            if (targetId === 'home') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                const target = document.getElementById(targetId);
+                if (target) {
+                    // Account for fixed header height
+                    const headerHeight = document.getElementById('header')?.offsetHeight || 80;
+                    const targetTop = target.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+                }
+            }
+
+            // 6. Update URL
+            window.history.pushState({}, '', targetId === 'home' ? '/' : '#' + targetId);
+        }
+        
+        const sectionIds = ['services','aboutus','industries','hse-training','contact','hse',
+            'book-appointment',
+            'secure-enrollment','free-quotation','hse-enrollment','hse-submsit',
+            'certificate-search','privacy-policy',
+            'successPayment','unsuccessPayment','okEnrollment','orderSuscess','payment-redirect'
+        ];
+
+        function show(id) {
+            if (!sectionIds.includes(id)) return;
+
+            // Modals that overlay on top of their parent form sections
+            const modalParentMap = {
+                'successPayment': 'book-appointment',
+                'unsuccessPayment': 'book-appointment',
+                'orderSuscess': 'free-quotation',
+                'okEnrollment': 'hse-submsit'
+            };
+
+            const parentSection = modalParentMap[id];
+
+            // If this is a modal, show its parent form behind it
+            if (parentSection) {
+                const parent = document.getElementById(parentSection);
+                if (parent) parent.classList.remove("hidden");
+            }
+
+            sectionIds.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                if (!section) return;
+
+                if (sectionId === id) {
+                    section.classList.remove("hidden");
+                    // Only scroll to top for non-modal sections
+                    if (!modalParentMap[id]) window.scrollTo(0, 0);
+                } else {
+                    // Don't hide parent form if showing a modal on top of it
+                    if (parentSection && sectionId === parentSection) return;
+                    section.classList.add("hidden");
+                }
+            });
+        }
+
+        // Mobile menu toggle with hamburger/X swap
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIconOpen = document.getElementById('menuIconOpen');
+        const menuIconClose = document.getElementById('menuIconClose');
+        const footer = document.getElementById("footer")
+
+        function toggleMobileMenu() {
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            if (isHidden) {
+                menuIconOpen.classList.remove('hidden');
+                menuIconClose.classList.add('hidden');
+            } else {
+                menuIconOpen.classList.add('hidden');
+                menuIconClose.classList.remove('hidden');
+            }
+        }
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                });
+            });
+        }
+
+        function closeModal() {
+            // Hide all modal overlays
+            const overlaySections = ['successPayment', 'unsuccessPayment', 'okEnrollment', 'orderSuscess', 'payment-redirect'];
+            overlaySections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) section.classList.add('hidden');
+            });
+            
+            // Hide all form sections too
+            const formSections = ['book-appointment', 'free-quotation', 'hse-enrollment', 'hse-submsit', 'certificate-search', 'privacy-policy'];
+            formSections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) section.classList.add('hidden');
+            });
+            
+            // Show home
+            const homeSection = document.getElementById('home');
+            if (homeSection) homeSection.classList.remove('hidden');
+            
+            window.history.pushState({}, '', '/');
+            window.scrollTo(0, 0);
+            window.location.reload()
+        }
+
+        function closeSuccessModal() {
+            console.log('✅ Closing success modal and clearing payment reference');
+            sessionStorage.removeItem('paymentReference');
+            closeModal();
+        }
+
+        // Handle payment redirect flow
+        function handlePaymentRedirect(reference, url) {
+            console.log('🚀 Initializing payment redirect...');
+            sessionStorage.setItem('paymentReference', reference);
+            
+            const statusMessage = document.getElementById('payment-status-message');
+            if (statusMessage) {
+                statusMessage.textContent = 'Redirecting to payment gateway...';
+            }
+            
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1500);
+        }
+
+        // ===== APPOINTMENT TIME SLOT LOGIC =====
+        // Generate time slots from 8am to 4pm (last slot at 3:00 PM so it finishes by 4pm)
+        // Max 8 bookings per hour - client-side placeholder (real limit should be server-side)
+        function populateTimeSlots() {
+            const select = document.getElementById('appointmentTimeSelect');
+            if (!select) return;
+
+            // Clear existing options except first
+            select.innerHTML = '<option value="" disabled selected>Select time</option>';
+
+            for (let hour = 8; hour <= 15; hour++) {
+                for (let min = 0; min < 60; min += 30) {
+                    const h24 = String(hour).padStart(2, '0');
+                    const m = String(min).padStart(2, '0');
+                    const value = `${h24}:${m}`;
+
+                    // Display in 12h format
+                    const h12 = hour > 12 ? hour - 12 : hour;
+                    const ampm = hour >= 12 ? 'PM' : 'AM';
+                    const label = `${h12}:${m} ${ampm}`;
+
+                    const option = document.createElement('option');
+                    option.value = value;
+                    option.textContent = label;
+                    select.appendChild(option);
+                }
+            }
+        }
+
+        // Set minimum date to today for appointment date picker
+        function setMinDate() {
+            const dateInput = document.getElementById('appointmentDateInput');
+            if (!dateInput) return;
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            dateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+
+            // Disable weekends
+            dateInput.addEventListener('input', function() {
+                const selected = new Date(this.value + 'T00:00:00');
+                const day = selected.getDay(); // 0=Sun, 6=Sat
+                if (day === 0 || day === 6) {
+                    alert('Please select a weekday (Monday to Friday).');
+                    this.value = '';
+                }
+            });
+        }
+
+        // DOMContentLoaded event
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // Populate time slots
+            populateTimeSlots();
+            setMinDate();
+
+            // ===== Payment form =====
+            const payBtn = document.getElementById('btn-pay');
+            const form = document.querySelector('form[action*="yoco"]');
+
+            if (form && payBtn) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    payBtn.disabled = true;
+                    payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    setTimeout(() => {
+                        form.submit();
+                    }, 1500);
+                });
+            }
+
+            // ===== Laravel Blade → JS =====
+            const sectionToShow = '{{ $sectionToShow ?? "home" }}';
+            const paymentReference = '{{ $paymentReference ?? "" }}';
+            const checkoutUrl = '{{ $checkoutUrl ?? "" }}';
+
+            console.log('Section to show:', sectionToShow);
+            console.log('Payment Reference:', paymentReference);
+            console.log('Checkout URL:', checkoutUrl);
+
+            if (sectionToShow === 'successPayment') {
+                console.log('✅ Success payment displayed - clearing payment reference');
+                sessionStorage.removeItem('paymentReference');
+            }
+
+            show(sectionToShow);
+
+            if (sectionToShow === 'payment-redirect' && paymentReference && checkoutUrl) {
+                handlePaymentRedirect(paymentReference, checkoutUrl);
+            }
+        });
+
+        // Custom Margin for navigation menu
+        window.addEventListener('load', function () {
+            const imheight = document.getElementById('imaginary-height');
+            const pageHeader = document.getElementById('header');
+
+            if (imheight && pageHeader) {
+                imheight.style.height = pageHeader.offsetHeight + "px";
+                window.addEventListener("resize", function () {
+                    imheight.style.height = pageHeader.offsetHeight + "px";
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>

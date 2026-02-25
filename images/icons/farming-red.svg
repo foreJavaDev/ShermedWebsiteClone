@@ -1,0 +1,17 @@
+<svg id="Component_117_65" data-name="Component 117 – 65" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+  <g id="Rectangle_798" data-name="Rectangle 798" fill="#a20f0f" stroke="#a20f0f" stroke-width="1">
+    <rect width="35" height="35" rx="8" stroke="none"/>
+    <rect x="0.5" y="0.5" width="34" height="34" rx="7.5" fill="none"/>
+  </g>
+  <g id="Group_218" data-name="Group 218" transform="translate(5.596 5.5)">
+    <path id="Path_166" data-name="Path 166" d="M10,11l11,.9a1,1,0,0,1,.8,1.1l-.665,4.158a1,1,0,0,1-.988.842H20" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_167" data-name="Path 167" d="M16,18H11" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_168" data-name="Path 168" d="M18,5a1,1,0,0,0-1,1v5.573" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_169" data-name="Path 169" d="M3,4h8.129a1,1,0,0,1,.99.863L13,11.246" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_170" data-name="Path 170" d="M4,11V4" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_171" data-name="Path 171" d="M7,15h.01" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_172" data-name="Path 172" d="M8,10.1V4" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <circle id="Ellipse_80" data-name="Ellipse 80" cx="2" cy="2" r="2" transform="translate(16 16)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <circle id="Ellipse_81" data-name="Ellipse 81" cx="5" cy="5" r="5" transform="translate(2 10)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

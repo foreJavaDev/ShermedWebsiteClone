@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHERmed - Audiometry Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{font-family:'Poppins',sans-serif}
+        .cb{width:18px;height:18px;border:2px solid #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;cursor:pointer}
+        .cb.on{background:#A20F0F;border-color:#A20F0F}
+        .q-box{background:#fefce8;border:1.5px solid #fde68a;border-radius:12px;padding:24px 28px}
+        .db-input{width:44px;height:36px;border:1.5px solid #e5e5e5;border-radius:8px;text-align:center;font-size:13px;font-weight:500;outline:none;transition:border .2s}
+        .db-input:focus{border-color:#A20F0F}
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(2px);z-index:100;display:none;overflow-y:auto;padding:40px 20px}
+        .modal-overlay.show{display:flex;align-items:flex-start;justify-content:center}
+        .metric-pill{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;text-align:center}
+    </style>
+</head>
+<body class="m-0 p-0 bg-[#f5f5f5] text-gray-800">
+
+<!-- ========== NAVBAR ========== -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+    <div class="max-w-[1300px] mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+            <a href="#" class="flex items-center gap-2 shrink-0">
+                <!-- REPLACE: Logo -->
+                <img src="/images/logo/Logo.png" alt="SHERmed" class="h-20 w-auto">
+            </a>
+            <nav class="flex items-center gap-1 ml-8">
+                <a href="#" class="text-gray-600 text-[13px] font-medium px-5 py-1.5 rounded-full hover:bg-gray-100 transition-colors">Dashboard</a>
+                <a href="#" class="bg-black text-white text-[13px] font-medium px-5 py-1.5 rounded-full">Shermed Occ Health</a>
+                <a href="#" class="text-gray-600 text-[13px] font-medium px-4 py-1.5 rounded-full hover:bg-gray-100 transition-colors">Reports</a>
+            </nav>
+            <div class="flex items-center gap-4 ml-auto">
+                <div class="flex items-center gap-3 text-gray-500">
+                    <button class="hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></button>
+                    <button class="hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
+                    <button class="relative hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg><span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#A20F0F] rounded-full border-2 border-white"></span></button>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <div class="flex items-center gap-2 cursor-pointer">
+                    <div class="w-9 h-9 rounded-full border-2 border-[#A20F0F] overflow-hidden flex items-center justify-center bg-white"><svg class="w-5 h-5 text-[#A20F0F]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg></div>
+                    <span class="text-[13px] font-medium text-gray-700">Staff</span>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <button class="flex items-center gap-1.5 text-[#A20F0F] text-[13px] font-medium hover:underline cursor-pointer"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"/></svg>Logout</button>
+            </div>
+        </div>
+    </div>
+    <div class="w-full h-[2px] bg-[#00e5d0]"></div>
+</header>
+
+<main class="pt-20 pb-8 max-w-[1100px] mx-auto px-6" id="app"></main>
+
+<!-- ========== RESULTS MODAL ========== -->
+<div class="modal-overlay" id="resultsModal">
+    <div class="bg-white rounded-2xl max-w-[900px] w-full p-8 relative my-8">
+        <button onclick="closeResults()" class="absolute top-4 right-4 w-8 h-8 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <div id="resultsContent"></div>
+    </div>
+</div>
+
+<script>
+const FREQS = ['500','750','1k','1.5k','2k','3k','4k','6k','8k'];
+const FREQ_HZ = [500,750,1000,1500,2000,3000,4000,6000,8000];
+
+let page = 'otoscopic'; // 'otoscopic' | 'audiometry'
+let leftVals = Array(9).fill('');
+let rightVals = Array(9).fill('');
+let baselineLeft = [10,5,25,10,30,20,10,40,30];
+let baselineRight = [10,20,35,50,20,10,40,20,10];
+let testStatus = 'Pending'; // 'Pending' | 'Completed'
+
+function render() {
+    if (page === 'otoscopic') renderOtoscopic();
+    else renderAudiometry();
+}
+
+// ============================================================
+// OTOSCOPIC EXAMINATION PAGE
+// ============================================================
+function renderOtoscopic() {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+    <div class="flex items-center gap-3 mb-2">
+        <button onclick="window.history.back()" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition cursor-pointer">
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+        </button>
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900">Audiometry Test</h1>
+            <p class="text-sm text-gray-500">Otoscopic Examination and Consultation Summary</p>
+        </div>
+    </div>
+
+    <!-- Clinical Info Box -->
+    <div class="q-box mt-8">
+        <div class="grid grid-cols-3 gap-8">
+            <div>
+                <p class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1 mb-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                    External Auditory Canal (EAC)</p>
+                <p class="text-xs text-gray-600 mb-1">Observe and document:</p>
+                <ul class="text-xs text-gray-600 space-y-0.5 list-disc pl-4">
+                    <li>Patency (Clear, partially occluded, or fully occluded)</li>
+                    <li>Cerumen (None, Minimal / non-occluding, Occluding - soft or impacted)</li>
+                    <li>Foreign bodies</li>
+                    <li>Canal wall condition (Normal, Redness - erythema, Swelling- edema, Discharge - otorrhea, or abnormality)</li>
+                </ul>
+                <p class="text-xs text-amber-700 mt-2 font-medium">⚠ Occluding cerumen, discharge or inflammation may invalidate audiometric results and should be addressed before testing.</p>
+            </div>
+            <div>
+                <p class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1 mb-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                    Tympanic Membrane (Eardrum)</p>
+                <p class="text-xs text-gray-600 mb-1">Assess the following:</p>
+                <ul class="text-xs text-gray-600 space-y-0.5 list-disc pl-4">
+                    <li>Visibility (Fully visible / partially visible / not visible)</li>
+                    <li>Color (Pearly grey - normal, Red/inflamed, Yellow or amber - possible effusion, White plaques - tympanosclerosis)</li>
+                    <li>Position (Neutral - normal, Retracted, Bulging)</li>
+                    <li>Integrity (Intact, Perforation - note size and location)</li>
+                    <li>Landmarks (Cone of light present, Handle of malleus visible)</li>
+                    <li>Other findings (Fluid level or air bubbles behind TM, Scarring)</li>
+                </ul>
+            </div>
+            <div>
+                <p class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1 mb-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                    Clinical Reminder Before Audiometry</p>
+                <p class="text-xs text-gray-600 mb-1">Proceed with audiometric testing only if:</p>
+                <ul class="text-xs text-gray-600 space-y-0.5 list-disc pl-4">
+                    <li>Ear canal is sufficiently clear</li>
+                    <li>Tympanic membrane is visible and intact</li>
+                    <li>No active infection or discharge is present</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Otoscopic Examination -->
+    <div class="mt-10">
+        <h3 class="text-base font-semibold italic text-gray-800">Otoscopic Examination</h3>
+        <p class="text-sm text-gray-500 mb-6">Purpose: To confirm ear canal patency and tympanic membrane integrity prior to audiometric testing.</p>
+
+        ${['Right Ear (RE)','Left Ear (LE)'].map(ear => {
+            const prefix = ear.includes('Right') ? 'RE' : 'LE';
+            return `
+            <div class="mb-8">
+                <h4 class="text-sm font-semibold text-gray-800 mb-4 pb-2 border-b border-dashed border-gray-300">${ear}</h4>
+                <div class="grid grid-cols-[1fr_1fr_1fr_200px] gap-6">
+                    <div>
+                        <p class="text-xs font-semibold text-gray-700 mb-2">External Auditory Canal:</p>
+                        ${['Clear / Patent','Non occluding cerumen','Occluding cerumen','Inflammation / redness','Discharge present','Foreign body'].map(opt => `
+                        <label class="flex items-center gap-2 mb-1.5 cursor-pointer" onclick="toggleCb(this)">
+                            <span class="cb"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                            <span class="text-xs text-gray-600">${opt}</span>
+                        </label>`).join('')}
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-gray-700 mb-2">Tympanic Membrane:</p>
+                        ${['Visible and Intact','Partially visible','Not visible','Abnormal color (red/dull/amber)','Retracted / bulging','Perforation'].map(opt => `
+                        <label class="flex items-center gap-2 mb-1.5 cursor-pointer" onclick="toggleCb(this)">
+                            <span class="cb"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                            <span class="text-xs text-gray-600">${opt}</span>
+                        </label>`).join('')}
+                    </div>
+                    <div></div>
+                    <div>
+                        <p class="text-xs font-semibold text-gray-700 mb-2">${prefix} Comment (optional):</p>
+                        <textarea class="w-full border border-gray-300 rounded-lg px-3 py-2 text-xs h-20 resize-none focus:border-[#A20F0F] focus:outline-none"></textarea>
+                    </div>
+                </div>
+            </div>`;
+        }).join('')}
+    </div>
+
+    <!-- Audiometry Clearance -->
+    <div class="mt-4">
+        <h3 class="text-[#A20F0F] font-semibold text-base mb-3">Audiometry Clearance</h3>
+        ${['Otoscopy normal – proceed with audiometry','Otoscopy abnormal – audiometry deferred','Referral required (ENT / GP)'].map(opt => `
+        <label class="flex items-center gap-2 mb-2 cursor-pointer" onclick="toggleCb(this)">
+            <span class="cb"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+            <span class="text-sm text-gray-700">${opt}</span>
+        </label>`).join('')}
+    </div>
+
+    <!-- Test Type -->
+    <div class="mt-8">
+        <h3 class="text-[#A20F0F] font-semibold text-base mb-1">Test Type</h3>
+        <p class="text-xs text-gray-500 mb-4">Baseline registered: SOH-000000 <span class="text-[#A20F0F]">(Pending)</span></p>
+        <div class="flex gap-4 items-start">
+            <div>
+                <button class="px-8 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition cursor-pointer mb-3 block">Baseline</button>
+                <button onclick="page='audiometry';render()" class="px-8 py-2.5 bg-[#A20F0F] text-white rounded-lg text-sm font-medium hover:bg-[#8a0d0d] transition cursor-pointer block">Screening Test</button>
+            </div>
+            <div class="ml-8">
+                <p class="text-sm font-semibold">Policy Note:</p>
+                <p class="text-xs text-gray-500 max-w-md">All mining and related industry employees must complete a Minimum Baseline audiogram, in addition to routine baseline and screening tests, with 16 hours of noise-free rest prior to testing and a minimum 30-minute break between consecutive tests, for accurate STS calculations.</p>
+            </div>
+        </div>
+    </div>`;
+}
+
+// ============================================================
+// AUDIOMETRY TEST PAGE
+// ============================================================
+function renderAudiometry() {
+    const app = document.getElementById('app');
+    app.innerHTML = `
+    <div class="flex items-center justify-between mb-4">
+        <div>
+            <h1 class="text-2xl font-semibold text-[#A20F0F]">Audiometry Test</h1>
+            <p class="text-sm text-gray-700"><strong>Audiometer:</strong> Oscilla SM930</p>
+            <p class="text-sm text-gray-700"><strong>Test Booth:</strong> Assigned Booth</p>
+        </div>
+        <button onclick="page='otoscopic';render()" class="px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100 transition cursor-pointer">End Test</button>
+    </div>
+
+    <!-- Patient Info -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+        <div class="flex items-center gap-8">
+            <div><p class="text-lg font-semibold">SOH-000000</p><p class="text-sm text-gray-500">Jennifer Moyo</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Company</p><p>Shermed</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Occupation</p><p>Truck Driver</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">ID/Passport No</p><p>000000000000</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Date of Birth</p><p>01/01/1991</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Gender</p><p>Female</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Age</p><p>27</p></div>
+        </div>
+    </div>
+
+    <!-- dB Value Inputs -->
+    <div class="grid grid-cols-2 gap-6 mb-6">
+        ${['left','right'].map(side => {
+            const color = side === 'left' ? '#2563eb' : '#A20F0F';
+            const label = side === 'left' ? 'Left' : 'Right';
+            const vals = side === 'left' ? leftVals : rightVals;
+            return `
+            <div class="bg-white rounded-xl border-2 p-5" style="border-color:${color}">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="w-3 h-3 rounded-full" style="background:${color}"></span>
+                    <span class="text-sm font-semibold">${label} Ear Values (dB)</span>
+                </div>
+                <div class="flex gap-2">
+                    ${FREQS.map((f,i) => `
+                    <div class="text-center">
+                        <p class="text-[11px] text-gray-500 mb-1">${f}</p>
+                        <input type="number" class="db-input" id="${side}-${i}" value="${vals[i]}" onchange="updateVal('${side}',${i},this.value)" min="-10" max="100" step="5">
+                    </div>`).join('')}
+                </div>
+            </div>`;
+        }).join('')}
+    </div>
+
+    <!-- Audiogram Charts -->
+    <div class="grid grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-xl border-2 border-blue-600 overflow-hidden">
+            <div class="bg-blue-600 text-white text-center py-3 font-semibold text-sm">LEFT EAR</div>
+            <div class="p-4"><canvas id="chartLeft" width="420" height="300"></canvas></div>
+        </div>
+        <div class="bg-white rounded-xl border-2 border-[#A20F0F] overflow-hidden">
+            <div class="bg-[#A20F0F] text-white text-center py-3 font-semibold text-sm">RIGHT EAR</div>
+            <div class="p-4"><canvas id="chartRight" width="420" height="300"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div class="flex items-center justify-between mt-6">
+        <div class="flex gap-3">
+            <button onclick="runTest()" class="px-6 py-2.5 bg-[#A20F0F] text-white rounded-lg text-sm font-medium hover:bg-[#8a0d0d] transition cursor-pointer flex items-center gap-2">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                Start Test
+            </button>
+            <button onclick="clearTest()" class="px-6 py-2.5 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-100 transition cursor-pointer flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>
+                Clear
+            </button>
+        </div>
+        <p class="text-sm font-medium">Test: <span class="${testStatus==='Completed'?'text-green-600':'text-[#A20F0F]'}">${testStatus}</span></p>
+        <button onclick="showResults()" class="px-6 py-2.5 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-900 transition cursor-pointer flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+            Report
+        </button>
+    </div>`;
+
+    // Draw charts after DOM update
+    setTimeout(() => {
+        drawChart('chartLeft', leftVals, '#2563eb', 'X');
+        drawChart('chartRight', rightVals, '#A20F0F', '●');
+    }, 50);
+}
+
+// ============================================================
+// CANVAS AUDIOGRAM
+// ============================================================
+function drawChart(canvasId, vals, color, marker) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const pad = {top:25, bottom:40, left:50, right:15};
+    const gW = W - pad.left - pad.right;
+    const gH = H - pad.top - pad.bottom;
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, W, H);
+
+    // dB range: -10 to 100
+    const dbMin = -10, dbMax = 100;
+    const dbRange = dbMax - dbMin;
+
+    // Grid lines
+    ctx.strokeStyle = '#e5e5e5';
+    ctx.lineWidth = 0.5;
+    for (let db = dbMin; db <= dbMax; db += 10) {
+        const y = pad.top + ((db - dbMin) / dbRange) * gH;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+        ctx.fillStyle = '#999'; ctx.font = '10px Poppins'; ctx.textAlign = 'right';
+        ctx.fillText(db, pad.left - 6, y + 3);
+    }
+
+    // Vertical grid + freq labels
+    FREQS.forEach((f, i) => {
+        const x = pad.left + (i / (FREQS.length - 1)) * gW;
+        ctx.strokeStyle = '#e5e5e5'; ctx.lineWidth = 0.5;
+        ctx.beginPath(); ctx.moveTo(x, pad.top); ctx.lineTo(x, H - pad.bottom); ctx.stroke();
+        ctx.fillStyle = '#999'; ctx.font = '10px Poppins'; ctx.textAlign = 'center';
+        ctx.fillText(f, x, H - pad.bottom + 16);
+    });
+
+    // Axis labels
+    ctx.save();
+    ctx.fillStyle = '#A20F0F'; ctx.font = '11px Poppins'; ctx.textAlign = 'center';
+    ctx.fillText('Frequency (Hz)', W / 2, H - 4);
+    ctx.translate(12, H / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Hearing Level (dB)', 0, 0);
+    ctx.restore();
+
+    // Plot data points
+    const numVals = vals.map(v => v === '' ? null : parseFloat(v));
+    const points = [];
+    numVals.forEach((v, i) => {
+        if (v !== null && !isNaN(v)) {
+            const x = pad.left + (i / (FREQS.length - 1)) * gW;
+            const y = pad.top + ((v - dbMin) / dbRange) * gH;
+            points.push({x, y, v});
+        }
+    });
+
+    if (points.length > 1) {
+        ctx.strokeStyle = color; ctx.lineWidth = 2;
+        ctx.beginPath();
+        points.forEach((p, i) => { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+        ctx.stroke();
+    }
+
+    points.forEach(p => {
+        if (marker === 'X') {
+            ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+            const s = 6;
+            ctx.beginPath(); ctx.moveTo(p.x - s, p.y - s); ctx.lineTo(p.x + s, p.y + s); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(p.x + s, p.y - s); ctx.lineTo(p.x - s, p.y + s); ctx.stroke();
+        } else {
+            ctx.fillStyle = color;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2); ctx.fill();
+        }
+    });
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function updateVal(side, idx, val) {
+    if (side === 'left') leftVals[idx] = val;
+    else rightVals[idx] = val;
+    drawChart(side === 'left' ? 'chartLeft' : 'chartRight', side === 'left' ? leftVals : rightVals, side === 'left' ? '#2563eb' : '#A20F0F', side === 'left' ? 'X' : '●');
+}
+
+function runTest() {
+    // Simulate test with sample data
+    leftVals = [10,5,25,10,30,20,10,40,30];
+    rightVals = [10,20,35,50,20,10,40,20,10];
+    testStatus = 'Completed';
+    renderAudiometry();
+}
+
+function clearTest() {
+    leftVals = Array(9).fill('');
+    rightVals = Array(9).fill('');
+    testStatus = 'Pending';
+    renderAudiometry();
+}
+
+function toggleCb(label) {
+    const cb = label.querySelector('.cb');
+    cb.classList.toggle('on');
+}
+
+// ============================================================
+// RESULTS MODAL
+// ============================================================
+function showResults() {
+    const modal = document.getElementById('resultsModal');
+    const content = document.getElementById('resultsContent');
+
+    const metrics = ['L DSHL','R DSHL','PLH','PLHb','SNb','SNPrev','PBI','ABHL','CAT','RTS'];
+
+    content.innerHTML = `
+    <h2 class="text-xl font-semibold text-[#A20F0F] mb-1">Audiometry Test Results</h2>
+    <p class="text-sm text-gray-700"><strong>Audiometer:</strong> Oscilla SM930</p>
+    <p class="text-sm text-gray-700 mb-4"><strong>Test Booth:</strong> Assigned Booth</p>
+
+    <!-- Patient -->
+    <div class="bg-white rounded-xl border border-gray-200 p-4 mb-4">
+        <div class="flex items-center gap-6 text-xs">
+            <div><p class="font-semibold text-base">SOH-000000</p><p class="text-gray-500">Jennifer Moyo</p></div>
+            <div><p class="font-medium text-gray-700">Company</p><p class="text-gray-500">Shermed</p></div>
+            <div><p class="font-medium text-gray-700">Occupation</p><p class="text-gray-500">Truck Driver</p></div>
+            <div><p class="font-medium text-gray-700">ID/Passport No</p><p class="text-gray-500">000000000000</p></div>
+            <div><p class="font-medium text-gray-700">Date of Birth</p><p class="text-gray-500">01/01/1991</p></div>
+            <div><p class="font-medium text-gray-700">Gender</p><p class="text-gray-500">Female</p></div>
+            <div><p class="font-medium text-gray-700">Age</p><p class="text-gray-500">27</p></div>
+        </div>
+    </div>
+
+    <!-- Passing Scale -->
+    <div class="flex items-center gap-4 mb-4 bg-white rounded-xl border border-gray-200 p-4">
+        <span class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg> Passing</span>
+        <span class="metric-pill bg-green-100 text-green-700">Normal:<br>10 - 25</span>
+        <span class="metric-pill bg-yellow-100 text-yellow-700">Mild:<br>26-40</span>
+        <span class="metric-pill bg-orange-100 text-orange-700">Moderate:<br>41-55</span>
+        <span class="metric-pill bg-red-100 text-red-700">Severe:<br>56-90</span>
+        <span class="metric-pill bg-red-200 text-red-900">Profound:<br>100+</span>
+    </div>
+
+    <!-- Frequency Data -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <p class="font-semibold text-sm mb-3">Frequency Data (dB HL)</p>
+        <div class="flex gap-3 mb-4">
+            <span class="px-4 py-1.5 bg-[#A20F0F] text-white rounded-full text-xs font-medium">Test</span>
+            <span class="px-4 py-1.5 bg-blue-600 text-white rounded-full text-xs font-medium flex-1 text-center">Left Ear Values (dB)</span>
+            <span class="px-4 py-1.5 bg-[#A20F0F] text-white rounded-full text-xs font-medium flex-1 text-center">Right Ear Values (dB)</span>
+        </div>
+        ${['Baseline','Current'].map((label, li) => {
+            const lv = li === 0 ? baselineLeft : leftVals.map(v => v === '' ? 0 : +v);
+            const rv = li === 0 ? baselineRight : rightVals.map(v => v === '' ? 0 : +v);
+            return `<div class="grid grid-cols-[80px_repeat(9,1fr)_10px_repeat(9,1fr)] gap-1 mb-2 items-center">
+                <span class="text-xs font-medium text-gray-600">${label}</span>
+                ${FREQS.map((f,i) => `<span class="text-center text-xs bg-gray-100 rounded py-1">${lv[i]}</span>`).join('')}
+                <span></span>
+                ${FREQS.map((f,i) => `<span class="text-center text-xs bg-gray-100 rounded py-1">${rv[i]}</span>`).join('')}
+            </div>`;
+        }).join('')}
+        <div class="grid grid-cols-[80px_repeat(9,1fr)_10px_repeat(9,1fr)] gap-1 mb-1">
+            <span></span>
+            ${FREQS.map(f => `<span class="text-center text-[10px] text-gray-400">${f}</span>`).join('')}
+            <span></span>
+            ${FREQS.map(f => `<span class="text-center text-[10px] text-gray-400">${f}</span>`).join('')}
+        </div>
+    </div>
+
+    <!-- Hearing Metrics -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <p class="font-semibold text-sm mb-3">Hearing Metrics</p>
+        <div class="grid grid-cols-10 gap-1">
+            ${metrics.map(m => `<div class="bg-[#A20F0F] text-white text-center text-[10px] font-semibold py-2 rounded">${m}</div>`).join('')}
+            ${metrics.map(() => `<div class="text-center text-sm font-medium py-2">0</div>`).join('')}
+        </div>
+        <p class="text-xs text-gray-500 mt-3 bg-gray-50 rounded-lg p-3"><strong>Noise Exposure Level:</strong> Within acceptable limits (testing performed inside certified audiometric booth).</p>
+    </div>
+
+    <!-- Summary -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+        <p class="font-semibold text-sm mb-3">Summary</p>
+        <table class="w-full text-xs">
+            <thead><tr class="bg-[#A20F0F] text-white"><th class="py-2 px-3 text-left rounded-l-lg"></th><th class="py-2 px-3">Current</th><th class="py-2 px-3">Previous</th><th class="py-2 px-3">Curr - Prev.</th><th class="py-2 px-3 rounded-r-lg">Baseline</th></tr></thead>
+            <tbody>
+                <tr class="border-b border-gray-100"><td class="py-2 px-3 font-medium">PLH</td><td class="py-2 px-3 text-center">0</td><td class="py-2 px-3 text-center">0</td><td class="py-2 px-3 text-center"></td><td class="py-2 px-3 text-center"></td></tr>
+                <tr><td class="py-2 px-3 font-medium">PLHifb</td><td class="py-2 px-3 text-center">0</td><td class="py-2 px-3 text-center">0</td><td class="py-2 px-3 text-center"></td><td class="py-2 px-3 text-center"></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-2 gap-4">
+        <div class="rounded-xl border-2 border-blue-600 overflow-hidden">
+            <div class="bg-blue-600 text-white text-center py-2 font-semibold text-xs">LEFT EAR</div>
+            <div class="p-3"><canvas id="modalChartLeft" width="340" height="220"></canvas></div>
+        </div>
+        <div class="rounded-xl border-2 border-[#A20F0F] overflow-hidden">
+            <div class="bg-[#A20F0F] text-white text-center py-2 font-semibold text-xs">RIGHT EAR</div>
+            <div class="p-3"><canvas id="modalChartRight" width="340" height="220"></canvas></div>
+        </div>
+    </div>`;
+
+    modal.classList.add('show');
+    setTimeout(() => {
+        drawChart('modalChartLeft', leftVals.map(v => v === '' ? null : v), '#2563eb', 'X');
+        drawChart('modalChartRight', rightVals.map(v => v === '' ? null : v), '#A20F0F', '●');
+    }, 100);
+}
+
+function closeResults() {
+    document.getElementById('resultsModal').classList.remove('show');
+}
+
+// Initialize
+render();
+</script>
+</body>
+</html>

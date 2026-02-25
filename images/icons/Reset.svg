@@ -1,0 +1,10 @@
+<svg id="Reset" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="Rectangle_970" data-name="Rectangle 970" fill="#f3f3f3" stroke="#f3f3f3" stroke-width="1">
+    <rect width="60" height="60" rx="10" stroke="none"/>
+    <rect x="0.5" y="0.5" width="59" height="59" rx="9.5" fill="none"/>
+  </g>
+  <g id="Group_1076" data-name="Group 1076" transform="translate(18 18)">
+    <path id="Path_403" data-name="Path 403" d="M3,12a9,9,0,1,0,9-9A9.75,9.75,0,0,0,5.26,5.74L3,8" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_404" data-name="Path 404" d="M3,3V8H8" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

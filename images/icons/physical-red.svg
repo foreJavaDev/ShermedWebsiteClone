@@ -1,0 +1,13 @@
+<svg id="Component_117_4" data-name="Component 117 – 4" xmlns="http://www.w3.org/2000/svg" width="65" height="65" viewBox="0 0 65 65">
+  <g id="Rectangle_798" data-name="Rectangle 798" fill="#a20f0f" stroke="#a20f0f" stroke-width="1">
+    <rect width="65" height="65" rx="8" stroke="none"/>
+    <rect x="0.5" y="0.5" width="64" height="64" rx="7.5" fill="none"/>
+  </g>
+  <g id="Group_150" data-name="Group 150" transform="translate(21 21)">
+    <path id="Path_140" data-name="Path 140" d="M11,2V4" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_141" data-name="Path 141" d="M5,2V4" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_142" data-name="Path 142" d="M5,3H4A2,2,0,0,0,2,5V9A6,6,0,0,0,14,9V5a2,2,0,0,0-2-2H11" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_143" data-name="Path 143" d="M8,15a6,6,0,1,0,12,0V12" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <circle id="Ellipse_76" data-name="Ellipse 76" cx="2" cy="2" r="2" transform="translate(18 8)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

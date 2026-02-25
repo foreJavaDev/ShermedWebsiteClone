@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHERmed - Vision Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{font-family:'Poppins',sans-serif}
+        /* Stepper */
+        .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;transition:all .3s;border:2px solid #ccc;color:#999;background:#fff}
+        .step-dot.active{background:#222;color:#fff;border-color:#222}
+        .step-dot.done{background:#A20F0F;color:#fff;border-color:#A20F0F}
+        .step-line{height:2px;width:40px;background:#ccc;transition:background .3s}
+        .step-line.done{background:#A20F0F}
+        .step-lbl{font-size:10px;color:#999;margin-top:4px;text-align:center;white-space:nowrap}
+        .step-lbl.active-lbl{color:#A20F0F;font-weight:600}
+        /* Question box */
+        .q-box{background:#fefce8;border:1.5px solid #fde68a;border-radius:12px;padding:24px 28px}
+        /* Cards */
+        .acu-card{border:1.5px solid #e5e5e5;border-radius:10px;padding:12px 16px;cursor:pointer;transition:all .2s;background:#f9f9f9;display:flex;justify-content:space-between;align-items:center}
+        .acu-card:hover{border-color:#A20F0F;background:#fef2f2}
+        .acu-card.picked{border-color:#2563eb;background:#eff6ff}
+        .nr-card{border:1.5px solid #e5e5e5;border-radius:10px;padding:16px;cursor:pointer;transition:all .2s;background:#f0f0f0;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px}
+        .nr-card:hover{border-color:#A20F0F}
+        .nr-card.picked{border-color:#A20F0F;background:#fef2f2}
+        .resp-btn{border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 24px;cursor:pointer;transition:all .2s;background:#f9f9f9;font-size:13px;font-weight:500;text-align:center;flex:1}
+        .resp-btn:hover{border-color:#A20F0F;background:#fef2f2}
+        .resp-btn.picked{border-color:#A20F0F;background:#A20F0F;color:#fff}
+        .med-card{border:1.5px solid #e5e5e5;border-radius:12px;padding:20px;cursor:pointer;transition:all .2s;background:#fff}
+        .med-card:hover{border-color:#A20F0F}
+        .med-card.picked{border-color:#A20F0F;background:#A20F0F;color:#fff}
+        .med-card.picked .mi{color:#fff!important}
+        .shape-card{border:1.5px solid #e5e5e5;border-radius:12px;padding:20px;cursor:pointer;transition:all .2s;background:#fff;text-align:center;min-width:110px}
+        .shape-card:hover{border-color:#A20F0F;background:#f9f9f9}
+        .shape-card.picked{border-color:#A20F0F;background:#f1f1f1}
+        .fusion-card{border:1.5px solid #e5e5e5;border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;background:#fff;text-align:center;min-width:100px}
+        .fusion-card:hover{border-color:#A20F0F;background:#fef2f2}
+        .fusion-card.picked{border-color:#A20F0F;background:#fef2f2}
+        .contrast-card{border:1.5px solid #e5e5e5;border-radius:10px;padding:14px 20px;cursor:pointer;transition:all .2s;background:#f9f9f9;text-align:center;font-size:13px}
+        .contrast-card:hover{border-color:#A20F0F;background:#fef2f2}
+        .contrast-card.picked{border-color:#A20F0F;background:#A20F0F;color:#fff}
+        /* Phoria radio */
+        .ph-dot{width:22px;height:22px;border-radius:50%;border:2px solid #ccc;cursor:pointer;transition:all .2s;flex-shrink:0}
+        .ph-dot:hover{border-color:#A20F0F}
+        .ph-dot.picked{border-color:#A20F0F;background:#A20F0F}
+        /* Light buttons */
+        .light-btn{width:36px;height:36px;border-radius:50%;border:1.5px solid #e5e5e5;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .light-btn:hover,.light-btn.on{background:#A20F0F;border-color:#A20F0F}
+        .light-btn:hover svg,.light-btn.on svg{stroke:#fff}
+        /* Checkbox */
+        .cb{width:18px;height:18px;border:2px solid #ccc;border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;cursor:pointer}
+        .cb.on{background:#A20F0F;border-color:#A20F0F}
+        /* Ref image placeholder */
+        .ref-img{width:200px;height:140px;background:#111;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+        .ref-img img{width:100%;height:100%;object-fit:cover}
+        /* Results */
+        .res-hdr{background:#A20F0F;color:#fff}
+    </style>
+</head>
+<body class="m-0 p-0 bg-[#f5f5f5] text-gray-800">
+
+<!-- ========== NAVBAR ========== -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+    <div class="max-w-[1300px] mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+            <a href="#" class="flex items-center gap-2 shrink-0">
+                <!-- REPLACE: Logo -->
+                <img src="/images/logo/Logo.png" alt="SHERmed" class="h-20 w-auto">
+            </a>
+            <nav class="flex items-center gap-1 ml-8">
+                <a href="#" id="nav-dash" class="text-gray-600 text-[13px] font-medium px-5 py-1.5 rounded-full hover:bg-gray-100 transition-colors">Dashboard</a>
+                <a href="#" id="nav-occ" class="bg-black text-white text-[13px] font-medium px-5 py-1.5 rounded-full">Shermed Occ Health</a>
+                <a href="#" id="nav-rep" class="text-gray-600 text-[13px] font-medium px-4 py-1.5 rounded-full hover:bg-gray-100 transition-colors">Reports</a>
+            </nav>
+            <div class="flex items-center gap-4 ml-auto">
+                <div class="flex items-center gap-3 text-gray-500">
+                    <!-- REPLACE: Search icon -->
+                    <button class="hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg></button>
+                    <!-- REPLACE: Settings icon -->
+                    <button class="hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg></button>
+                    <!-- REPLACE: Bell icon -->
+                    <button class="relative hover:text-[#A20F0F] transition-colors cursor-pointer"><svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg><span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#A20F0F] rounded-full border-2 border-white"></span></button>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <div class="flex items-center gap-2 cursor-pointer">
+                    <div class="w-9 h-9 rounded-full border-2 border-[#A20F0F] overflow-hidden flex items-center justify-center bg-white">
+                        <!-- REPLACE: Avatar -->
+                        <svg class="w-5 h-5 text-[#A20F0F]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                    </div>
+                    <span class="text-[13px] font-medium text-gray-700">Staff</span>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <button class="flex items-center gap-1.5 text-[#A20F0F] text-[13px] font-medium hover:underline cursor-pointer">
+                    <!-- REPLACE: Logout icon -->
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3-3l3-3m0 0l-3-3m3 3H9"/></svg>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-full h-[2px] bg-[#00e5d0]"></div>
+</header>
+
+<!-- ========== MAIN ========== -->
+<main class="pt-20 pb-8 max-w-[1100px] mx-auto px-6" id="app"></main>
+
+<script>
+// ============================================================
+// TEST CONFIGURATION DATA - All 15 tests defined here
+// ============================================================
+const STEPS = ['Distance Vision','Near Vision','Colour Vision','Phoria','Depth Perception','Peripheral Vision','Night Vision','Results'];
+
+// Which step (0-indexed) each test belongs to
+const TEST_STEP = [0,0,0,1,1,2,2,3,3,4,5,5,6,6,6];
+
+const TESTS = [
+  // TEST 1 - Right Eye Acuity
+  {id:1, title:'Right Eye: Acuity (Day/Far)', type:'acuity-3x3',
+   question:'Here are nine blocks with numbers in them. Please read the numbers in the first block of the top row.',
+   passing:'If five of the six numerals are correctly identified, the subject is considered as having 20-20 acuity in the right eye and need not read further. If the first block is not correctly read, have the subject continue across each row consecutively from left to right until the numbers in a block are called correctly.',
+   rows:[
+     [{n:'547638',v:'20/20'},{n:'428576',v:'20/25'},{n:'943852',v:'20/30'}],
+     [{n:'795823',v:'20/40'},{n:'357248',v:'20/50'},{n:'7236',v:'20/60'}],
+     [{n:'9574',v:'20/70'},{n:'92',v:'20/100'},{n:'5',v:'20/200'}]
+   ]},
+  // TEST 2 - Left Eye Acuity
+  {id:2, title:'Left Eye: Acuity (Day/Far)', type:'acuity-3x3',
+   question:'Here are nine blocks with numbers in them. Please read the numbers in the first block of the top row.',
+   passing:'If five of the six numerals are correctly identified, the subject is considered as having 20-20 acuity in the left eye and need not read further. If the first block is not correctly read, have the subject continue across each row consecutively from left to right until the numbers in a block are called correctly.',
+   rows:[
+     [{n:'745932',v:'20/20'},{n:'578236',v:'20/25'},{n:'346752',v:'20/30'}],
+     [{n:'534268',v:'20/40'},{n:'752386',v:'20/50'},{n:'6254',v:'20/60'}],
+     [{n:'8453',v:'20/70'},{n:'85',v:'20/100'},{n:'3',v:'20/200'}]
+   ]},
+  // TEST 3 - Both Eyes Acuity
+  {id:3, title:'Both Eyes: Acuity (Day/Far)', type:'acuity-3x3',
+   question:'Here are nine blocks with numbers in them. Please read the numbers in the first block of the top row.',
+   passing:'If five of the six numerals are correctly identified, the subject is considered as having 20-20 acuity in both eyes and need not read further. If the first block is not correctly read, have the subject continue across each row consecutively from left to right until the numbers in a block are called correctly.',
+   rows:[
+     [{n:'857432',v:'20/20'},{n:'674235',v:'20/25'},{n:'382457',v:'20/30'}],
+     [{n:'563472',v:'20/40'},{n:'859423',v:'20/50'},{n:'8927',v:'20/60'}],
+     [{n:'2978',v:'20/70'},{n:'43',v:'20/100'},{n:'9',v:'20/200'}]
+   ]},
+  // TEST 4 - Near Vision Intermediate 100cm
+  {id:4, title:'Both Eyes: Intermediate Distance Acuity 100cm (Day/ Intermediate 1)', type:'acuity-near',
+   question:'Here you see three columns. Please read me the numbers in column B starting at the top row (Box 1-B)',
+   passing:'If the numbers in the top row are correctly identified the examinee is considered as having 20-20 binocular acuity during the night and you can move on to the second Intermediate Distance (60cm) Test.',
+   left:[{l:'L1',n:'573284',v:'20/20'},{l:'L2',n:'764235',v:'20/25'},{l:'L3',n:'283745',v:'20/30'}],
+   right:[{l:'L4',n:'473562',v:'20/40'},{l:'L5',n:'324958',v:'20/50'}]},
+  // TEST 5 - Near Vision Intermediate 60cm
+  {id:5, title:'Both Eyes: Intermediate Distance Acuity 60cm (Day/ Intermediate 2)', type:'acuity-near',
+   question:'Here you see three columns. Please read me the numbers in column c starting at the top row (Box 1-C)',
+   passing:'If the numbers in the top row are correctly identified the examinee is considered as having 20-20 binocular acuity.',
+   left:[{l:'L1',n:'975342',v:'20/20'},{l:'L2',n:'638275',v:'20/25'},{l:'L3',n:'763425',v:'20/30'}],
+   right:[{l:'L4',n:'243658',v:'20/40'},{l:'L5',n:'683257',v:'20/50'}]},
+  // TEST 6 - Colour Vision Red/Green
+  {id:6, title:'Colour Vision (Red/Green)(Day/Far)', type:'colour',
+   question:'What numbers do you see inside the circles on the first line?',
+   passing:'Failure to name any of the numbers correctly indicates possible severe Colour blindness.',
+   answers:'32, 79, 23', options:['Three correct','Two correct','One correct','None correct']},
+  // TEST 7 - Colour Vision Blue/Violet
+  {id:7, title:'Colour Vision (Blue/violet)(Day/Far)', type:'colour',
+   question:'What numbers do you see inside the circles on the bottom row?',
+   passing:'Failure to name any of the numbers correctly indicates possible mild Colour blindness.',
+   answers:'92, 56, 63', options:['Three correct','Two correct','One correct','None correct']},
+  // TEST 8 - Phoria
+  {id:8, title:'Phoria (Eye Co-Ordination) (Day/Far)', type:'phoria',
+   question:'Do you see a scale of numbers and dots with two crossed lines running through it? At what number, or between what numbers, does the red line passes through the scale? (Record response) At what number, or between what numbers, does the green line passes through the scale? (Record response)',
+   passing:'The expected answer for both lines is between 4 and 5. Response may be delayed by the apparent movement of the red line. To assist in speeding response, ask for a number within the range of movement. When this has been obtained, determine how far each way the movement continues.'},
+  // TEST 9 - Fusion
+  {id:9, title:'Fusion (Day/Far)', type:'fusion',
+   question:'How many balls do you see?',
+   passing:'Three balls. A satisfactory answer is four balls becoming three.'},
+  // TEST 10 - Stereopsis
+  {id:10, title:'Stereopsis (Day/Far)', type:'stereopsis',
+   question:'You will see five rows of shapes. Each row has five different symbols. In each row, one shape should appear to "float" closer to you than the others. For each row, tell which shape looks like it is floating forward.',
+   passing:'To pass, you must correctly identify the floating shape in all five rows. If you have trouble with the first row, the tester may repeat or rephrase the question to help you understand it.'},
+  // TEST 11 - Peripheral Visual Field
+  {id:11, title:'Peripheral Visual Field (Day/Far)', type:'peripheral',
+   question:'Look straight ahead. A light will flash either on your left, your right, or both sides. Each time you see a light, tell me where it appeared.',
+   passing:'1. Click the light button that matches the lamp that flashed.\n2. When testing the right eye\'s nasal field, the patient should report seeing the light on the left side.\n3. When testing the left eye\'s nasal field, the patient should report seeing the light on the right side.\n4. If one eye is blind, only test the side with a full (70°) range.\n5. The patient must correctly identify lights from both sides.\n6. Start with the nasal test, then move outward to the 85° test.',
+   passingLabel:'Instructions for the Examiner'},
+  // TEST 12 - Peripheral Vertical
+  {id:12, title:'Peripheral Vertical (Day/Far)', type:'peripheral-vert',
+   question:'Look straight ahead. At any time, a light will flash. When you see a light flash, please tell me if the light was Right-Up, Left-Down, Left-Up, or Right-Down.',
+   passing:'A positive answer is expected from this test.',
+   passingLabel:'Instructions for the Examiner'},
+  // TEST 13 - Night Vision Acuity
+  {id:13, title:'Both Eyes: Night Vision Acuity (Night/Far)', type:'acuity-near',
+   question:'Here you see three columns. Please read me the numbers in column A starting at the top row (Box 1-A)',
+   passing:'If the numbers in the top row are correctly identified the examinee is considered as having 20-20 binocular acuity during the night.',
+   left:[{l:'L1',n:'475386',v:'20/20'},{l:'L2',n:'826547',v:'20/25'},{l:'L3',n:'597328',v:'20/30'}],
+   right:[{l:'L4',n:'279358',v:'20/40'},{l:'L5',n:'842753',v:'20/50'}]},
+  // TEST 14 - Contrast Sensitivity
+  {id:14, title:'Contrast Sensitivity (Night/Far)', type:'contrast',
+   question:'Please read the numbers on Line 1 Column A.',
+   passing:'If Line 1, Column A is read correctly, he/she can read a 20-70 acuity test at 10% contrast, and they need not read any further. Continue reading each block from left to right until your examinee reads all three numbers in a single block successfully. All tests are given at 20-70 acuity. Reading a minimum of all three numbers on Line 2 Column A is considered acceptable.'},
+  // TEST 15 - Glare Recovery
+  {id:15, title:'Glare Recovery (Night/Far)', type:'glare',
+   question:'After the bright light goes off, please read line (1, 2, or 3, as decided by the examiner) before 5 seconds pass.',
+   passing:'Ability to read more than 6 numbers. Retest if he/she only reads 5 numbers. The examinee fails if they read 4 or fewer numbers.'}
+];
+
+let currentTest = -1; // -1 = setup page
+let results = {};
+
+const app = document.getElementById('app');
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+function renderSetup() {
+    app.innerHTML = `
+    <div class="flex items-center gap-3 mb-2">
+        <button onclick="window.history.back()" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition cursor-pointer">
+            <!-- REPLACE: Back arrow icon -->
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+        </button>
+        <div>
+            <h1 class="text-2xl font-semibold text-gray-900">Vision Test</h1>
+            <p class="text-sm text-gray-500">Eye Health Questionnaire and Type of Medical</p>
+        </div>
+    </div>
+    <!-- Questionnaire -->
+    <div class="grid grid-cols-3 gap-8 mt-10">
+        ${[
+            {num:1, q:'Have you ever been examined by a vision specialist?', sub:'How long ago was your last test?', field:'select', opts:['Less than 1 year','1-2 years','3-5 years','5+ years']},
+            {num:2, q:'Do you wear eyeglasses or contact lenses?', sub:'For what reason?', field:'select', opts:['Nearsightedness','Farsightedness','Astigmatism','Other']},
+            {num:3, q:'Do you have a problem with your vision?', sub:'What type of problem?', field:'input'}
+        ].map(item => `
+        <div>
+            <div class="flex items-center gap-2 mb-3">
+                <span class="w-6 h-6 rounded-full bg-[#A20F0F] text-white text-[11px] font-bold flex items-center justify-center">${item.num}</span>
+                <p class="text-[13px] font-medium text-gray-700">${item.q}</p>
+            </div>
+            <div class="flex items-center gap-4 mb-4">
+                <label class="flex items-center gap-2 cursor-pointer" onclick="toggleCb(this)">
+                    <span class="cb on"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                    <span class="text-sm">Yes</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer" onclick="toggleCb(this)">
+                    <span class="cb"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+                    <span class="text-sm">No</span>
+                </label>
+            </div>
+            <p class="text-xs text-gray-500 mb-1">${item.sub}</p>
+            ${item.field === 'select'
+                ? `<select class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-500 focus:border-[#A20F0F] focus:outline-none"><option>Select</option>${item.opts.map(o=>`<option>${o}</option>`).join('')}</select>`
+                : `<input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-[#A20F0F] focus:outline-none">`
+            }
+        </div>`).join('')}
+    </div>
+    <!-- Medical Type Cards -->
+    <div class="flex gap-4 mt-12 flex-wrap" id="med-cards">
+        ${[
+            {name:'General Worker', icon:'general-worker'},
+            {name:'Working at Heights', icon:'working-heights'},
+            {name:'Food Handlers', icon:'food-handlers'},
+            {name:'Drivers & Operators', icon:'drivers-operators', selected:true},
+            {name:'Confined Space', icon:'confined-space'}
+        ].map((m,i) => `
+        <div class="med-card flex-1 min-w-[140px] ${m.selected?'picked':''}" onclick="pickMed(this)" data-type="${m.name}">
+            <div class="mi text-[#A20F0F] mb-3">
+                <!-- REPLACE: ${m.icon} SVG icon -->
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="${getMedPath(i)}"/></svg>
+            </div>
+            <p class="text-sm font-medium">${m.name}</p>
+        </div>`).join('')}
+    </div>
+    <!-- Test lists -->
+    <div class="grid grid-cols-5 gap-4 mt-4 text-xs text-gray-500">
+        <div><p>Distance vision</p><p>Near vision</p><p>Colour vision</p><p>Phoria</p><p>Depth perception</p></div>
+        <div><p>Distance vision</p><p>Near vision</p><p>Colour vision</p><p>Phoria</p><p>Depth perception</p><p>Peripheral vision</p></div>
+        <div><p>Distance vision</p><p>Near vision</p><p>Colour vision</p><p>Phoria</p><p>Depth perception</p></div>
+        <div><p>Distance vision</p><p>Near vision</p><p>Colour vision</p><p>Phoria</p><p>Depth perception</p><p>Peripheral vision</p><p>Night vision</p></div>
+        <div><p>Distance vision</p><p>Near vision</p><p>Colour vision</p><p>Phoria</p><p>Depth perception</p><p>Peripheral vision</p><p>Night vision</p></div>
+    </div>
+    <div class="flex justify-center mt-10">
+        <button onclick="goTest(0)" class="px-12 py-3 bg-[#A20F0F] text-white rounded-lg font-medium hover:bg-[#8a0d0d] transition text-sm cursor-pointer">Start Test</button>
+    </div>`;
+}
+
+function getMedPath(i) {
+    const paths = [
+        'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0',
+        'M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z',
+        'M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513m-3 4.871v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0112.75 0',
+        'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.75 14.25V5.625A1.125 1.125 0 014.875 4.5h9.75c.621 0 1.125.504 1.125 1.125v8.625',
+        'M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281M15 12a3 3 0 11-6 0 3 3 0 016 0z'
+    ];
+    return paths[i] || paths[0];
+}
+
+function renderStepper() {
+    const step = TEST_STEP[currentTest];
+    return `<div class="flex items-start justify-center gap-0 mb-10 mt-2">
+        ${STEPS.map((s,i) => {
+            let cls = i < step ? 'done' : i === step ? 'active' : '';
+            let lblCls = i === step ? 'active-lbl' : '';
+            let icon = i < step ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>` : (i+1);
+            let line = i < STEPS.length-1 ? `<div class="step-line ${i < step ? 'done' : ''}" style="margin-top:15px"></div>` : '';
+            return `<div class="flex flex-col items-center"><div class="step-dot ${cls}">${icon}</div><div class="step-lbl ${lblCls}">${s}</div></div>${line}`;
+        }).join('')}
+    </div>`;
+}
+
+function renderQuestionBox(t) {
+    const pLabel = t.passingLabel || 'Passing';
+    const passingText = (t.passing||'').replace(/\n/g,'<br>');
+    return `<div class="flex gap-6 mb-8">
+        <div class="q-box flex-1">
+            <p class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1 mb-2">
+                <!-- REPLACE: Info icon --><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                Question</p>
+            <p class="text-sm text-gray-700 mb-4">${t.question}</p>
+            <p class="text-[#A20F0F] text-sm font-semibold flex items-center gap-1 mb-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+                ${pLabel}</p>
+            <p class="text-sm text-gray-700">${passingText}</p>
+        </div>
+        <div class="ref-img">
+            <!-- REPLACE: Reference image for test ${t.id} -->
+            <svg class="w-16 h-16 text-gray-500" fill="none" stroke="currentColor" stroke-width="1" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 16l5-5 4 4 4-6 5 7"/></svg>
+        </div>
+    </div>`;
+}
+
+function renderNav() {
+    const isLast = currentTest === 14;
+    return `<div class="flex items-center justify-between mt-10 pt-6 border-t border-gray-200">
+        <p class="text-base font-medium text-gray-700">Test ${currentTest+1}/15</p>
+        <div class="flex gap-3">
+            <button onclick="${isLast ? 'showResults()' : 'goTest('+(currentTest+1)+')'}" class="px-10 py-2.5 bg-[#A20F0F] text-white rounded-lg font-medium hover:bg-[#8a0d0d] transition text-sm cursor-pointer">${isLast ? 'Report' : 'Next'}</button>
+            <button onclick="cancelTest()" class="px-10 py-2.5 border border-gray-300 rounded-lg font-medium text-gray-600 hover:bg-gray-100 transition text-sm cursor-pointer">Cancel</button>
+        </div>
+    </div>`;
+}
+
+// ============================================================
+// TYPE-SPECIFIC RENDERERS
+// ============================================================
+
+function renderAcuity3x3(t) {
+    const labels = ['L1','L2','L3'];
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="grid grid-cols-[auto_1fr_1fr_1fr_180px] gap-3 items-start">
+        ${t.rows.map((row,ri) => `
+            <span class="text-sm font-semibold text-gray-500 pt-3">${labels[ri]}</span>
+            ${row.map(c => `<div class="acu-card" onclick="pickCard(this)" data-value="${c.v}"><span class="text-sm font-medium">${c.n}</span><span class="text-sm text-gray-500">${c.v}</span></div>`).join('')}
+            ${ri===0 ? `<div class="nr-card" style="grid-row:span 3" onclick="pickCard(this)" data-value="NR">No Response</div>` : ''}
+        `).join('')}
+    </div>`;
+}
+
+function renderAcuityNear(t) {
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="grid grid-cols-[auto_1fr_auto_1fr_180px] gap-3 items-start">
+        ${t.left.map((c,i) => `
+            <span class="text-sm font-semibold text-gray-500 pt-3">${c.l}</span>
+            <div class="acu-card" onclick="pickCard(this)" data-value="${c.v}"><span class="text-sm font-medium">${c.n}</span><span class="text-sm text-gray-500">${c.v}</span></div>
+            ${t.right[i] ? `<span class="text-sm font-semibold text-gray-500 pt-3">${t.right[i].l}</span><div class="acu-card" onclick="pickCard(this)" data-value="${t.right[i].v}"><span class="text-sm font-medium">${t.right[i].n}</span><span class="text-sm text-gray-500">${t.right[i].v}</span></div>` : '<span></span><span></span>'}
+            ${i===0 ? `<div class="nr-card" style="grid-row:span 3" onclick="pickCard(this)" data-value="NR">No Response</div>` : ''}
+        `).join('')}
+    </div>`;
+}
+
+function renderColour(t) {
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <p class="text-center text-[#A20F0F] font-medium text-lg mb-6">Correct Responses are: ${t.answers}</p>
+    <div class="flex gap-3">${t.options.map(o => `<div class="resp-btn" onclick="pickResp(this)" data-value="${o}">${o}</div>`).join('')}</div>`;
+}
+
+function renderPhoria() {
+    const vals = ['0','0.5','1','1.5','2','2.5','3','3.5','4','4.5','5','5.5','6','6.5','7','7.5','8','8.5','9','N/A'];
+    function dotRow(id) {
+        return `<div class="flex items-center gap-1 justify-center flex-wrap mb-1">
+            ${vals.map(v => `<span class="text-[10px] text-gray-500 w-6 text-center">${v}</span>`).join('')}
+        </div>
+        <div class="flex items-center gap-1 justify-center flex-wrap" id="${id}">
+            ${vals.map(v => `<div class="ph-dot" onclick="pickPhoria(this,'${id}')" data-value="${v}"></div>`).join('')}
+        </div>`;
+    }
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="mb-6">
+        <div class="flex justify-between mb-2"><span class="text-sm font-medium">ESO</span><span class="text-sm text-[#A20F0F] font-semibold">Red Lateral</span><span class="text-sm font-medium">EXO</span></div>
+        ${dotRow('ph-red')}
+    </div>
+    <div>
+        <div class="flex justify-between mb-2"><span class="text-sm font-medium">Right. H</span><span class="text-sm text-green-600 font-semibold">Green Vertical</span><span class="text-sm font-medium">Left. H</span></div>
+        ${dotRow('ph-green')}
+    </div>`;
+}
+
+function renderFusion() {
+    const cards = [
+        {label:'Three balls', balls:[{c:'bg-red-700'},{c:'bg-gray-300'},{c:'bg-gray-300'},{c:'bg-blue-700'}], layout:'col'},
+        {label:'Four then three balls', balls:[{c:'bg-red-700'},{c:'bg-gray-300'},{c:'bg-gray-300'},{c:'bg-blue-700'}], layout:'col'},
+        {label:'Four balls: Esophoria', balls:[{c:'bg-red-700'},{c:'bg-gray-300'},{c:'bg-gray-300'},{c:'bg-blue-700'}], layout:'col'},
+        {label:'Four balls: Exophoria', balls:[{c:'bg-red-700'},{c:'bg-gray-300'},{c:'bg-gray-300'},{c:'bg-blue-700'}], layout:'col'},
+        {label:'Two balls left eye', balls:[{c:'bg-gray-300'},{c:'bg-gray-300'},{c:'bg-blue-700'}], layout:'col'},
+        {label:'Two balls right eye', balls:[{c:'bg-red-700'},{c:'bg-gray-300'},{c:'bg-gray-300'}], layout:'col'}
+    ];
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="flex gap-3 flex-wrap">
+        ${cards.map(c => `<div class="fusion-card" onclick="pickResp(this)" data-value="${c.label}">
+            <div class="flex flex-col items-center gap-1 mb-2">
+                ${c.balls.map(b => `<div class="w-5 h-5 rounded-full ${b.c}"></div>`).join('')}
+            </div>
+            <p class="text-xs font-medium">${c.label}</p>
+        </div>`).join('')}
+    </div>
+    <div class="mt-3"><div class="nr-card inline-block px-8" onclick="pickResp(this)" data-value="No Response">No Response</div></div>`;
+}
+
+function renderStereopsis() {
+    const shapes = [
+        {label:'L1 - 10% Square', svg:'<rect x="4" y="4" width="32" height="32" fill="black"/>'},
+        {label:'L2 - 30% Heart', svg:'<path d="M20 8C20 8 10 2 4 10C0 16 8 24 20 36C32 24 40 16 36 10C30 2 20 8 20 8Z" fill="black"/>'},
+        {label:'L3 - 60% Cross', svg:'<path d="M20 4v32M4 20h32" stroke="black" stroke-width="10" stroke-linecap="round"/>'},
+        {label:'L4 - 75% Star', svg:'<polygon points="20,2 26,15 40,15 28,24 32,38 20,30 8,38 12,24 0,15 14,15" fill="black"/>'},
+        {label:'L5 - 85% Cross', svg:'<path d="M20 4v32M4 20h32" stroke="black" stroke-width="10" stroke-linecap="round"/>'}
+    ];
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="flex gap-3 flex-wrap">
+        ${shapes.map(s => `<div class="shape-card" onclick="pickResp(this)" data-value="${s.label}">
+            <div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center"><svg class="w-10 h-10" viewBox="0 0 40 40">${s.svg}</svg></div>
+            <p class="text-xs font-medium text-gray-600">${s.label}</p>
+        </div>`).join('')}
+        <div class="shape-card" style="background:#f0f0f0" onclick="pickResp(this)" data-value="No Response">
+            <div class="w-12 h-12 mx-auto mb-2"></div>
+            <p class="text-xs font-medium text-gray-400">No Response</p>
+        </div>
+    </div>`;
+}
+
+function lightBtnSvg() {
+    return `<!-- REPLACE: Light bulb icon --><svg class="w-4 h-4 text-[#A20F0F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`;
+}
+
+function cbHtml(label) {
+    return `<label class="flex flex-col items-center cursor-pointer" onclick="toggleCb(this)">
+        <span class="cb"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></span>
+        <span class="text-xs mt-1">${label}</span>
+    </label>`;
+}
+
+function renderPeripheral() {
+    const leftAngles = ['85°','70°','55°','Nasal'];
+    const rightAngles = ['Nasal','55°','70°','85°'];
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="flex justify-between mb-6">
+        <div class="text-center">
+            <p class="text-[#A20F0F] font-semibold text-sm mb-4">Left Side</p>
+            <div class="flex gap-4 mb-2">${leftAngles.map(a => cbHtml(a)).join('')}</div>
+            <div class="flex gap-4">${leftAngles.map(() => `<div class="light-btn" onclick="toggleLight(this)">${lightBtnSvg()}</div>`).join('')}</div>
+        </div>
+        <div class="text-center">
+            <p class="text-[#A20F0F] font-semibold text-sm mb-4">Right Side</p>
+            <div class="flex gap-4 mb-2">${rightAngles.map(a => cbHtml(a)).join('')}</div>
+            <div class="flex gap-4">${rightAngles.map(() => `<div class="light-btn" onclick="toggleLight(this)">${lightBtnSvg()}</div>`).join('')}</div>
+        </div>
+    </div>
+    <div class="flex gap-3 justify-center mt-4">
+        <button class="resp-btn max-w-[200px]" onclick="pickResp(this)" data-value="All On">All On</button>
+        <button class="resp-btn max-w-[200px]" onclick="pickResp(this)" data-value="All Clear">All Clear</button>
+        <button class="resp-btn max-w-[200px]" onclick="pickResp(this)" data-value="No Response">No Response</button>
+    </div>`;
+}
+
+function renderPeripheralVert() {
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="flex gap-12 justify-center">
+        <div class="text-center">
+            <div class="flex gap-6 mb-2">${cbHtml('Left-Up')}${cbHtml('Right-Down')}</div>
+            <div class="flex gap-6">${[1,2].map(() => `<div class="light-btn" onclick="toggleLight(this)">${lightBtnSvg()}</div>`).join('')}</div>
+            <div class="mt-3"><button class="resp-btn text-xs px-6" onclick="pickResp(this)" data-value="No Response L">No Response</button></div>
+        </div>
+        <div class="text-center">
+            <div class="flex gap-6 mb-2">${cbHtml('Left-Down')}${cbHtml('Right-Up')}</div>
+            <div class="flex gap-6">${[1,2].map(() => `<div class="light-btn" onclick="toggleLight(this)">${lightBtnSvg()}</div>`).join('')}</div>
+            <div class="mt-3"><button class="resp-btn text-xs px-6" onclick="pickResp(this)" data-value="No Response R">No Response</button></div>
+        </div>
+    </div>`;
+}
+
+function renderContrast() {
+    const items = ['10% = 958','20% = 479','30% = 863','40% = 347','50% = 563','60% = 534','70% = 426','80% = 728','90% = 962'];
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="grid grid-cols-4 gap-3">
+        ${items.slice(0,3).map(i => `<div class="contrast-card" onclick="pickResp(this)" data-value="${i}">${i}</div>`).join('')}
+        <div class="nr-card" onclick="pickResp(this)" data-value="No Response">No Response</div>
+        ${items.slice(3,6).map(i => `<div class="contrast-card" onclick="pickResp(this)" data-value="${i}">${i}</div>`).join('')}
+        <div></div>
+        ${items.slice(6).map(i => `<div class="contrast-card" onclick="pickResp(this)" data-value="${i}">${i}</div>`).join('')}
+    </div>`;
+}
+
+function renderGlare() {
+    return `<h3 class="text-base font-medium text-gray-900 mb-4">Examination</h3>
+    <div class="flex gap-6 items-start">
+        <div>
+            <div class="resp-btn mb-3 max-w-[200px]" onclick="pickResp(this)" data-value="6 or more correct">6 or more correct</div>
+            <div class="resp-btn mb-3 max-w-[200px]" onclick="pickResp(this)" data-value="5 correct">5 correct</div>
+            <div class="resp-btn max-w-[200px]" onclick="pickResp(this)" data-value="4 or less correct">4 or less correct</div>
+        </div>
+        <div class="text-center">
+            <p class="text-[#A20F0F] text-sm font-medium mb-2">Select line for examinee to read</p>
+            ${['L1 = 2651439','L2 = 8294635','L3 = 6395274'].map(l => `
+            <label class="flex items-center gap-2 mb-2 cursor-pointer"><input type="radio" name="glare-line" class="accent-[#A20F0F]"><span class="text-sm">${l}</span></label>`).join('')}
+        </div>
+        <div class="text-center bg-white border border-gray-200 rounded-xl p-6">
+            <div class="flex items-center gap-4 mb-2">
+                <div class="light-btn" onclick="toggleLight(this)">${lightBtnSvg()}<br><span class="text-[9px] text-gray-500 block mt-1">Glare Disabled</span></div>
+                <div>
+                    <p class="text-5xl font-bold text-gray-800" id="timer-display">00<span class="text-2xl text-gray-400">.00s</span></p>
+                    <p class="text-xs text-gray-500">5 second threshold</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 justify-center mt-3">
+                <button onclick="startTimer()" class="px-6 py-2 bg-[#A20F0F] text-white rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-[#8a0d0d] transition cursor-pointer">
+                    <!-- REPLACE: Play icon -->
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    Start test
+                </button>
+                <button onclick="resetTimer()" class="w-9 h-9 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+                    <!-- REPLACE: Reset icon -->
+                    <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>`;
+}
+
+// ============================================================
+// RESULTS PAGE
+// ============================================================
+function renderResults() {
+    const stepIdx = 7; // Results step
+    // Build stepper with all done
+    let stepperHtml = `<div class="flex items-start justify-center gap-0 mb-10 mt-2">
+        ${STEPS.map((s,i) => {
+            let cls = i < stepIdx ? 'done' : i === stepIdx ? 'active' : '';
+            let icon = i < stepIdx ? `<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>` : (i+1);
+            let line = i < STEPS.length-1 ? `<div class="step-line ${i < stepIdx ? 'done' : ''}" style="margin-top:15px"></div>` : '';
+            let lblCls = i === stepIdx ? 'active-lbl' : '';
+            return `<div class="flex flex-col items-center"><div class="step-dot ${cls}">${icon}</div><div class="step-lbl ${lblCls}">${s}</div></div>${line}`;
+        }).join('')}
+    </div>`;
+
+    const rows = [
+        {cat:'Distance Vision', tests:[{desc:'Right Eye: Acuity (Day/Far)',outcome:'Test: Successful',result:'20/20'},
+            {desc:'Left Eye: Acuity (Day/Far)',outcome:'Test: Successful',result:'20/20'},
+            {desc:'Both Eyes: Acuity (Day/Far)',outcome:'Test: Successful',result:'20/20'}]},
+        {cat:'Near Vision', tests:[{desc:'Both Eyes: Intermediate Distance Acuity 100cm (Day/ Intermediate 1)',outcome:'Test: Successful',result:'20/20'},
+            {desc:'Both Eyes: Intermediate Distance Acuity 60cm (Day/ Intermediate 2)',outcome:'Test: Successful',result:'20/20'}]},
+        {cat:'Colour Vision', tests:[{desc:'Colour Vision (Red/Green) (Day/Far)',outcome:'Test: Successful',result:'Three correct'},
+            {desc:'Colour Vision (Blue/Violet) (Day/Far)',outcome:'Test: Successful',result:'Three correct'}]},
+        {cat:'Phoria', tests:[{desc:'Phoria (Eye Co-Ordination) (Day/Far)',outcome:'Test: Successful',result:'RL: 4.5    GL: 4.5'},
+            {desc:'Fusion (Day/Far)',outcome:'Test: Successful',result:'Three balls'}]},
+        {cat:'Depth Perception', tests:[{desc:'Stereopsis (Day/Far)',outcome:'Test: Successful',result:'L5 - 85% Cross'}]},
+        {cat:'Peripheral Vision', tests:[{desc:'Peripheral Visual Field (Day/Far)',outcome:'Test: Successful',result:'Left 85°    Right 85°'},
+            {desc:'Peripheral Vertical (Day/Far)',outcome:'Test: Successful',result:'Passed: Sees all lights'}]},
+        {cat:'Night Vision', tests:[{desc:'Both Eyes: Night Vision Acuity (Night/Far)',outcome:'Test: Successful',result:'20/20'},
+            {desc:'Contrast Sensitivity (Night/Far)',outcome:'Test: Successful',result:'10%'},
+            {desc:'Glare Recovery (Night/Far)',outcome:'Test: Successful',result:'6 or more correct'}]}
+    ];
+
+    app.innerHTML = stepperHtml + `
+    <h2 class="text-xl font-semibold mb-6">Vision Screener Test Results - (Drivers and Operators)</h2>
+    <!-- Patient Info -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+        <div class="flex items-center gap-8">
+            <div><p class="text-lg font-semibold">SOH-000000</p><p class="text-sm text-gray-500">Jennifer Moyo</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Company</p><p>Shermed</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Occupation</p><p>Truck Driver</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">ID/Passport No</p><p>000000000000</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Date of Birth</p><p>01/01/1991</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Gender</p><p>Female</p></div>
+            <div class="text-xs text-gray-500"><p class="font-medium text-gray-700">Age</p><p>27</p></div>
+        </div>
+    </div>
+    <!-- Results Table -->
+    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden mb-6">
+        <div class="grid grid-cols-[150px_1fr_180px_200px] res-hdr text-sm font-semibold">
+            <div class="px-4 py-3">Test</div><div class="px-4 py-3">Test Description</div><div class="px-4 py-3">Test Outcome</div><div class="px-4 py-3">Result</div>
+        </div>
+        ${rows.map(r => r.tests.map((t,i) => `
+        <div class="grid grid-cols-[150px_1fr_180px_200px] border-b border-gray-100 hover:bg-gray-50 text-sm">
+            <div class="px-4 py-3 ${i===0?'font-medium text-gray-700':'text-gray-400'}">${i===0?r.cat:''}</div>
+            <div class="px-4 py-3 text-gray-600">${t.desc}</div>
+            <div class="px-4 py-3"><span class="text-green-600 italic">${t.outcome}</span></div>
+            <div class="px-4 py-3 font-medium">${t.result}</div>
+        </div>`).join('')).join('')}
+    </div>
+    <div class="flex items-center justify-between">
+        <p class="text-lg font-semibold">Test Results</p>
+        <button onclick="alert('Generating report...')" class="px-8 py-2.5 bg-[#A20F0F] text-white rounded-lg font-medium hover:bg-[#8a0d0d] transition text-sm cursor-pointer flex items-center gap-2">
+            <!-- REPLACE: Clock/Report icon -->
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Complete Test
+        </button>
+    </div>`;
+}
+
+// ============================================================
+// MAIN RENDER
+// ============================================================
+function renderTest(idx) {
+    const t = TESTS[idx];
+    let examHtml = '';
+    switch(t.type) {
+        case 'acuity-3x3': examHtml = renderAcuity3x3(t); break;
+        case 'acuity-near': examHtml = renderAcuityNear(t); break;
+        case 'colour': examHtml = renderColour(t); break;
+        case 'phoria': examHtml = renderPhoria(); break;
+        case 'fusion': examHtml = renderFusion(); break;
+        case 'stereopsis': examHtml = renderStereopsis(); break;
+        case 'peripheral': examHtml = renderPeripheral(); break;
+        case 'peripheral-vert': examHtml = renderPeripheralVert(); break;
+        case 'contrast': examHtml = renderContrast(); break;
+        case 'glare': examHtml = renderGlare(); break;
+    }
+    app.innerHTML = renderStepper() + `
+        <h2 class="text-2xl font-semibold text-gray-900 mb-6">${t.title}</h2>
+        ${renderQuestionBox(t)}
+        ${examHtml}
+        ${renderNav()}`;
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function goTest(idx) {
+    currentTest = idx;
+    renderTest(idx);
+}
+
+function showResults() {
+    currentTest = 15;
+    renderResults();
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function cancelTest() {
+    currentTest = -1;
+    renderSetup();
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pickCard(el) {
+    const section = el.closest('.grid');
+    section.querySelectorAll('.acu-card,.nr-card').forEach(c => c.classList.remove('picked'));
+    el.classList.add('picked');
+    results[currentTest] = el.dataset.value;
+}
+
+function pickResp(el) {
+    const parent = el.parentElement;
+    parent.querySelectorAll('.resp-btn,.fusion-card,.shape-card,.contrast-card,.nr-card').forEach(c => c.classList.remove('picked'));
+    el.classList.add('picked');
+    results[currentTest] = el.dataset.value;
+}
+
+function pickPhoria(el, groupId) {
+    document.getElementById(groupId).querySelectorAll('.ph-dot').forEach(d => d.classList.remove('picked'));
+    el.classList.add('picked');
+}
+
+function pickMed(el) {
+    document.querySelectorAll('.med-card').forEach(c => c.classList.remove('picked'));
+    el.classList.add('picked');
+}
+
+function toggleCb(label) {
+    const cb = label.querySelector('.cb');
+    cb.classList.toggle('on');
+}
+
+function toggleLight(btn) {
+    btn.classList.toggle('on');
+}
+
+// Timer for glare test
+let timerInterval = null;
+let timerMs = 0;
+function startTimer() {
+    if(timerInterval) return;
+    timerMs = 0;
+    timerInterval = setInterval(() => {
+        timerMs += 10;
+        const s = Math.floor(timerMs/1000);
+        const ms = Math.floor((timerMs%1000)/10);
+        const el = document.getElementById('timer-display');
+        if(el) el.innerHTML = `${String(s).padStart(2,'0')}<span class="text-2xl text-gray-400">.${String(ms).padStart(2,'0')}s</span>`;
+        if(timerMs >= 5000) { clearInterval(timerInterval); timerInterval = null; }
+    }, 10);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerMs = 0;
+    const el = document.getElementById('timer-display');
+    if(el) el.innerHTML = `00<span class="text-2xl text-gray-400">.00s</span>`;
+}
+
+// Initialize
+renderSetup();
+</script>
+</body>
+</html>

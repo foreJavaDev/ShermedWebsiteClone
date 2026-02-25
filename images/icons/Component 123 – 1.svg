@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="352" height="252" viewBox="0 0 352 252">
+  <g id="Component_123_1" data-name="Component 123 – 1" transform="translate(1 1)">
+    <g id="Group_147" data-name="Group 147" transform="translate(-2 -3)">
+      <path id="Path_188" data-name="Path 188" d="M317,253c19.33,0,35-13.168,35-29.412V76.529c0-16.244-15.67-29.412-35-29.412H178.75c-11.894.1-23.033-4.887-29.575-13.235L135,16.235C128.526,7.975,117.545,3,105.775,3H37C17.67,3,2,16.168,2,32.412V223.588C2,239.832,17.67,253,37,253Z" fill="#dee2e6" stroke="#dee2e6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+    <text id="Shermed_Occupational_Health" data-name="Shermed Occupational Health" transform="translate(40 156.219)" fill="#000015" font-size="18" font-family="SegoeUI, Segoe UI"><tspan x="0" y="19">Shermed </tspan><tspan x="0" y="39">Occupational </tspan><tspan x="0" y="59">Health</tspan></text>
+    <text id="_230" data-name="230" transform="translate(323 131.219)" fill="#a20f0f" font-size="55" font-family="SegoeUI, Segoe UI"><tspan x="-88.945" y="0">230</tspan></text>
+    <text id="_25_Expired_Employees_Medicals" data-name="25 Expired Employees Medicals" transform="translate(215 194.219)" fill="#707070" font-size="10" font-family="SegoeUI, Segoe UI"><tspan x="0" y="11">25 Expired Employees </tspan><tspan x="0" y="25">Medicals</tspan></text>
+    <text id="SCP-000000" transform="translate(130 88)" fill="#a20f0f" font-size="14" font-family="SegoeUI, Segoe UI"><tspan x="-74.826" y="0">SCP-000000</tspan></text>
+  </g>
+</svg>

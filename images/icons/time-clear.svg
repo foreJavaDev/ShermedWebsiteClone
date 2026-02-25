@@ -1,0 +1,7 @@
+<svg id="Component_141_1" data-name="Component 141 – 1" xmlns="http://www.w3.org/2000/svg" width="65" height="65" viewBox="0 0 65 65">
+  <path id="Path_187" data-name="Path 187" d="M8,0H57a8,8,0,0,1,8,8V57a8,8,0,0,1-8,8H8a8,8,0,0,1-8-8V8A8,8,0,0,1,8,0Z" fill="none"/>
+  <g id="Group_166" data-name="Group 166" transform="translate(21 21)">
+    <path id="Path_153" data-name="Path 153" d="M12,6v6l4,2" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <circle id="Ellipse_78" data-name="Ellipse 78" cx="10" cy="10" r="10" transform="translate(2 2)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>

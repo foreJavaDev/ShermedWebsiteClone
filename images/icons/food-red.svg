@@ -1,0 +1,12 @@
+<svg id="Component_117_59" data-name="Component 117 – 59" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+  <g id="Rectangle_798" data-name="Rectangle 798" fill="#a20f0f" stroke="#a20f0f" stroke-width="1">
+    <rect width="35" height="35" rx="8" stroke="none"/>
+    <rect x="0.5" y="0.5" width="34" height="34" rx="7.5" fill="none"/>
+  </g>
+  <g id="Group_170" data-name="Group 170" transform="translate(5.48 5.5)">
+    <path id="Path_159" data-name="Path 159" d="M16,2,13.7,4.3a3,3,0,0,0,0,4.2l1.8,1.8a3,3,0,0,0,4.2,0L22,8" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_160" data-name="Path 160" d="M15,15,3.3,3.3a4.2,4.2,0,0,0,0,6l7.3,7.3a2.128,2.128,0,0,0,2.8,0Zm0,0,7,7" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_161" data-name="Path 161" d="M2.1,21.8l6.4-6.3" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    <path id="Path_162" data-name="Path 162" d="M19,5l-7,7" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+  </g>
+</svg>
